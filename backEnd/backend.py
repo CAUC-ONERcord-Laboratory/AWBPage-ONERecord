@@ -24,15 +24,16 @@ def handle_query():
         "Issued_by":InvolvedParty.airline,
         "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
         "Accounting_Information":InvolvedParty.accountingInformation,
+        #
         #航班信息
-        "To": FightInformation.arrivalLocationCode,
+        "To": FightInformation.arrivalLocation,
         "Airport_of_Departure": FightInformation.departureLocation,
         "First_Carrier": FightInformation.airlineCode,
-        "Airport_of_Destination": FightInformation.locationName,
+        "Airport_of_Destination": FightInformation.arrivalLocation,
         "Flight": FightInformation.transportIdentifier,
         "Date": FightInformation.departureDate,
         "No_of_Pieces": BasicWaybillInformation.pieceReferences,
-        "Signature_of_Shipper_or_his Agent": BasicWaybillInformation.consignorDeclarationSignature,
+        "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
         "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
         "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace
     }

@@ -56,7 +56,7 @@ class InvolvedParty:
                             }"""
 
 class FightInformation:
-    arrivalLocationCode="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#> 
+    arrivalLocation="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#> 
                     PREFIX code: <https://onerecord.iata.org/ns/code-lists/> 
                     SELECT ?code 
                     WHERE { 
@@ -70,13 +70,13 @@ class FightInformation:
 
     departureLocation="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#> 
                     PREFIX code: <https://onerecord.iata.org/ns/code-lists/> 
-                    SELECT ?departurelocation 
+                    SELECT ?code 
                     WHERE { 
                         ?waybill a cargo:Waybill ;
                         cargo:departureLocation ?location .
                         ?location a cargo:Location ; 
                         cargo:locationCodes ?locationCodes . 
-                        ?locationCodes cargo:code ?departurelocation .
+                        ?locationCodes cargo:code ?code .
                     
                     }"""
 
@@ -91,7 +91,6 @@ class FightInformation:
                                             cargo:airlineCode ?airlineCode . 
                         }"""
 
-    locationName=arrivalLocationCode
 
     transportIdentifier="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                           SELECT ?transportIdentifier
@@ -110,7 +109,7 @@ class FightInformation:
     departureDate="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-                      SELECT ?departureDateValue
+                      SELECT ?departureDate
                       WHERE {
                         # 从 Waybill 导航到 TransportLegs
                         ?waybill a cargo:Waybill ;
@@ -118,7 +117,7 @@ class FightInformation:
 
                         # 提取 departureDate 的 xsd:dateTime 值
                         ?transportLeg cargo:departureDate ?dateNode .
-                        BIND(STRDT(STR(?dateNode), xsd:dateTime) AS ?departureDateValue)
+                        BIND(STRDT(STR(?dateNode), xsd:dateTime) AS ?departureDate)
                       }
                       """
 
@@ -136,48 +135,48 @@ class BasicWaybillInformation:
                         }"""
 
     consignorDeclarationSignature="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
-                                    SELECT ?consignorSignature
+                                    SELECT ?consignorDeclarationSignature
                                     WHERE {
                                       # 直接匹配 Waybill 的 consignorDeclarationSignature 属性
                                       ?waybill a cargo:Waybill ;
-                                        cargo:consignorDeclarationSignature ?consignorSignature .
+                                        cargo:consignorDeclarationSignature ?consignorDeclarationSignature .
                                     }"""
 
 
     carrierDeclarationSignature="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
 
-                                    SELECT ?consignorSignature
+                                    SELECT ?carrierDeclarationSignature
                                     WHERE {
                                       # 直接匹配 Waybill 的 consignorDeclarationSignature 属性
                                       ?waybill a cargo:Waybill ;
-                                        cargo:carrierDeclarationSignature ?consignorSignature .
+                                        cargo:carrierDeclarationSignature ?carrierDeclarationSignature .
                                     }
                                     """
 
     carrierDeclarationDate="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-                                SELECT ?carrierDateValue
+                                SELECT ?Date
                                 WHERE {
                                   # 直接匹配 Waybill 的 carrierDeclarationDate 属性
                                   ?waybill a cargo:Waybill ;
                                     cargo:carrierDeclarationDate ?dateNode .
 
                                   # 提取 xsd:dateTime 类型的值（注意数据中实际只有日期部分）
-                                  BIND(STRDT(STR(?dateNode), xsd:dateTime) AS ?carrierDateValue)
+                                  BIND(STRDT(STR(?dateNode), xsd:dateTime) AS ?Date)
                                 }
                                     """
 
     carrierDeclarationPlace="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
 
-                                SELECT ?locationCode
+                                SELECT ?code
                                 WHERE {
                                   # 从 Waybill 导航到 Location
                                   ?waybill a cargo:Waybill ;
                                     cargo:carrierDeclarationPlace ?place .
 
                                   # 提取 Location 的 locationCodes 中的 code
-                                  ?place cargo:locationCodes/cargo:code ?locationCode .
+                                  ?place cargo:locationCodes/cargo:code ?code .
                                 }
                                     """
 
