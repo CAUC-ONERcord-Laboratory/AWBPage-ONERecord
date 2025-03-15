@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     callApi(userInput).then(data => {
 
       // 显示到前端（假设有一个 id 为 "result" 的 HTML 元素）
-      document.getElementById("shipperName").textContent = data.shipper_info[0].name;
-      document.getElementById("consigneeName").textContent = data.consignee_info[0].name;
+      document.getElementById("shipperName").textContent = data.Shipper.Name;
+      document.getElementById("consigneeName").textContent = data.Consignee.Name;
 
     }).catch(error => {
       console.error("Error fetching data:", error);
@@ -26,7 +26,7 @@ function processInput() {
 function callApi(userInput) {
 
   var data = {
-    jsonld: JSON.parse(userInput)
+    waybill: JSON.parse(userInput)
   };
 
 
