@@ -3,7 +3,7 @@ from flask_cors import CORS
 from rdflib import Graph
 from rdflib.plugins.sparql import processUpdate
 import json
-from sparql_queries import InvolvedParty
+from sparql_queries import *
 import time
 
 app = Flask(__name__)
@@ -18,14 +18,24 @@ def handle_query():
     if not data or 'waybill' not in data:
         return jsonify({"error": "Missing 'waybill' in request body"}), 400
     query_actions = {
+        #相关方信息
         "Shipper": InvolvedParty.shipper,
         "Consignee": InvolvedParty.consinee,
         "Issued_by":InvolvedParty.airline,
         "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
         "Accounting_Information":InvolvedParty.accountingInformation
+        #航班信息
+        "To": FightInformation.arrivalLocationCode,
+        "Airport_of_Departure": FightInformation.departureLocation,
+        "First_Carrier": FightInformation.airlineCode,
+        "Airport_of_Destination": FightInformation.locationName,
+        "Flight": FightInformation.transportIdentifier,
+        "Date": FightInformation.departureDate,
+        "No_of_Pieces": BasicWaybillInformation.pieceReferences,
+        "Signature_of_Shipper_or_his Agent": BasicWaybillInformation.consignorDeclarationSignature,
+        "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
+        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace
     }
-
-
     response = {}
     processor = JsonldProcessor(data['waybill'])
     
