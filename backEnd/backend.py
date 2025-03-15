@@ -23,7 +23,7 @@ def handle_query():
         "Consignee": InvolvedParty.consinee,
         "Issued_by":InvolvedParty.airline,
         "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
-        "Accounting_Information":InvolvedParty.accountingInformation
+        "Accounting_Information":InvolvedParty.accountingInformation,
         #航班信息
         "To": FightInformation.arrivalLocationCode,
         "Airport_of_Departure": FightInformation.departureLocation,
