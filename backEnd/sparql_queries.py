@@ -179,4 +179,85 @@ class BasicWaybillInformation:
                                   ?place cargo:locationCodes/cargo:code ?code .
                                 }
                                     """
-
+class Charge:
+        weightValuationIndicator="""
+                                    PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                                    PREFIX PrepaidCollectIndicator: <https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#>
+                                    SELECT ?weightValuationIndicator
+                                    WHERE { 
+                                        ?waybill cargo:weightValuationIndicator ?weightValuationIndicator.
+                                    }
+                                    """
+        otherChargesIndicator="""
+                                PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                                PREFIX PrepaidCollectIndicator: <https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#>
+                                SELECT ?otherChargesIndicator
+                                WHERE { 
+                                    ?waybill cargo:otherChargesIndicator ?otherChargesIndicator.
+                                }
+                                """
+        declaredValueForCarriage="""
+                                    PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                                    SELECT ?Unit ?Value
+                                    WHERE { 
+                                        ?waybill cargo:declaredValueForCarriage [
+                                                    cargo:currencyUnit ?Unit ;
+                                                    cargo:numericalValue ?Value
+                                                    ].
+                                    }
+                                    """
+        declaredValueForCustoms=""" 
+                                PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                                    SELECT ?unit ?Value
+                                    WHERE { 
+                                        ?waybill cargo:declaredValueForCustoms [
+                                                    cargo:currencyUnit ?unit ;
+                                                    cargo:numericalValue ?Value
+                                                    ].
+                                    } 
+                                """
+        insuredAmount="""
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        SELECT ?unit ?Value
+                        WHERE { 
+                            ?waybill cargo:insuredAmount [
+                                        cargo:currencyUnit ?unit ;
+                                        cargo:numericalValue ?Value
+                                        ].
+                        }
+                        """
+        rateCharge="""  
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        SELECT ?unit ?Value
+                        WHERE { 
+                            ?waybill cargo:rateCharge [
+                                        cargo:currencyUnit ?unit ;
+                                        cargo:numericalValue ?Value
+                                        ].
+                        }
+                        """
+        # "Total": "",
+        # "Weight_Charge_Prepaid": "",
+        othercharge=""" PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        SELECT ?otherChargeCode ?resonDescription ?Value ?Unit ?entitlement
+                        WHERE { 
+                                ?waybill cargo:otherCharges [
+                                        a cargo:OtherCharge ;
+                                        cargo:otherChargeCode ?otherChargeCode ;
+                                        cargo:entitlement ?entitlement ;
+                                        cargo:reasonDescription ?resonDescription ;
+                                        cargo:otherChargeAmount [
+                                            cargo:currencyUnit ?Unit ;
+                                            cargo:numericalValue ?Value
+                                        ]
+                                 ]
+                        }
+                        """
+        rateClassCode="""                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        SELECT ?rateClassCode
+                        WHERE { 
+                            ?waybill cargo:rateClassCode ?rateClassCode.
+                        }"""
+        # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
+        # "Total_Prepaid": "",
+        # "Total_Collect":"",

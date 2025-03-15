@@ -24,7 +24,6 @@ def handle_query():
         "Issued_by":InvolvedParty.airline,
         "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
         "Accounting_Information":InvolvedParty.accountingInformation,
-        #
         #航班信息
         "To": FightInformation.arrivalLocation,
         "Airport_of_Departure": FightInformation.departureLocation,
@@ -35,7 +34,24 @@ def handle_query():
         "No_of_Pieces": BasicWaybillInformation.pieceReferences,
         "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
         "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace
+        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace,
+
+        #费用相关
+        "WT_VAL": Charge.weightValuationIndicator,
+        "Other": Charge.otherChargesIndicator,
+        "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
+        "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
+        "Amount_of_Insurance": Charge.insuredAmount,
+        "Rate_Charge": Charge.rateCharge,
+        # "Total": "",
+        # "Weight_Charge_Prepaid": "",
+        "Other_Charges": Charge.othercharge,
+        # "Total_Other_Charges_Due_Agent": Charge.dueAgent,
+        # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
+        # "Total_Prepaid": "",
+        # "Total_Collect":"",
+        "Rate_Class_Code": Charge.rateClassCode,
+        # "Currency": ""
     }
     response = {}
     processor = JsonldProcessor(data['waybill'])
