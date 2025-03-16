@@ -17,47 +17,62 @@ def handle_query():
     data = request.get_json()
     if not data or 'waybill' not in data:
         return jsonify({"error": "Missing 'waybill' in request body"}), 400
+    query_actions = {
+        #相关方信息
+        "Shipper": InvolvedParty.shipper,
+        "Consignee": InvolvedParty.consinee,
+        "Issued_by":InvolvedParty.airline,
+        "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
+        "Accounting_Information":InvolvedParty.accountingInformation,
+        #航班信息
+        "To": FightInformation.arrivalLocation,
+        "Airport_of_Departure": FightInformation.departureLocation,
+        "First_Carrier": FightInformation.airlineCode,
+        "Airport_of_Destination": FightInformation.arrivalLocation,
+        "Flight": FightInformation.transportIdentifier,
+        "Date": FightInformation.departureDate,
+        "No_of_Pieces": BasicWaybillInformation.pieceReferences,
+        "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
+        "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
+        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
 
-    try:
-        waybill_data = data['waybill']
-        print("Received waybill data:", waybill_data)  # 添加调试日志
-        
-        # 如果是简单格式，直接返回
-        if isinstance(waybill_data, dict) and 'Name' in waybill_data and 'Address' in waybill_data:
-            response = {
-                "Shipper": {
-                    "Name": waybill_data['Name'],
-                    "Address": waybill_data['Address']
-                }
-            }
-            print("Response for simple format:", response)  # 添加调试日志
-            return jsonify(response)
-            
-        # 否则使用 ONE Record 格式处理
-        processor = JsonldProcessor(waybill_data)
-        
-        # 获取发货人信息
-        shipper_result = processor.execute_sparql_query(InvolvedParty.shipper)
-        print("SPARQL query result:", shipper_result)  # 添加调试日志
-        
-        # 获取收货人信息
-        consignee_result = processor.execute_sparql_query(InvolvedParty.consinee)
-        response = {
-            "Shipper": {
-                "Name": shipper_result.get("Name", "") if shipper_result else "",
-                "Address": shipper_result.get("Address", "") if shipper_result else ""
-            },
-            "Consignee": {
-                "Name": consignee_result.get("Name", "") if consignee_result else "",
-                "Address": consignee_result.get("Address", "") if consignee_result else ""
-            }
-        }
-        
-        print("Response for ONE Record format:", response)  # 添加调试日志
-        return jsonify(response)
-    except Exception as e:
-        print("Error:", str(e))  # 添加调试日志
-        return jsonify({"error": str(e)}), 500
+        #费用相关
+        "WT_VAL": Charge.weightValuationIndicator,
+        "Other": Charge.otherChargesIndicator,
+        "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
+        "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
+        "Amount_of_Insurance": Charge.insuredAmount,
+        "Rate_Charge": Charge.rateCharge,
+
+        # "Total": "",
+        # "Weight_Charge_Prepaid": "",
+        "Other_Charges": Charge.othercharge,
+        # "Total_Other_Charges_Due_Agent": Charge.dueAgent,
+        # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
+        # "Total_Prepaid": "",
+        # "Total_Collect":"",
+        "Rate_Class_Code": Charge.rateClassCode,
+        # "Currency": ""
+    }
+    response = {}
+    processor = JsonldProcessor(data['waybill'])
+    
+    total_start_time = time.perf_counter()  # 记录总耗时
+    for key, query in query_actions.items():
+        start_time = time.perf_counter()  # 记录开始时间
+        try:
+            result = processor.execute_sparql_query(query)
+            response[key] = result
+        except Exception as e:
+            response[f"{key}_error"] = str(e)
+        finally:  # 无论成功与否都会执行
+            duration = time.perf_counter() - start_time  # 计算耗时
+            # 打印带查询标识和耗时的信息（保留2位小数）
+            print(f"Query '{key}' executed in {duration:.6f} seconds")
+    total_duration = time.perf_counter() - total_start_time  # 计算总耗时
+    print(f"Total execution time: {total_duration:.6f} seconds")
+    
+    return jsonify(response)
 
 class JsonldProcessor:
     def __init__(self, jsonld_data):
@@ -81,15 +96,20 @@ class JsonldProcessor:
             if len(rows) == 0:
                 return []
             
-            # 如果只有一行，返回单个字典 {}
             elif len(rows) == 1:
-                return {
-                    str(var): str(val) 
-                    for var, val in rows[0].asdict().items()
-                }
+                result_row = rows[0]  # 直接操作 ResultRow 对象
+                if len(result_row) == 1:  # 检查结果行是否只有一个元素
+                    # 直接提取第一个元素的 URI 字符串
+                    return str(rows[0][0])  # 例如 'https://onerecord.iata.org/ns/code-lists/RateClassCode#Q'
+                else:
+                    # 如果是多列结果，保持原逻辑转为字典（可选）
+                    return {str(k): str(v) for k, v in result_row.asdict().items()}
             
             # 如果有多行，返回列表 [ {}, {}, ... ]
             else:
+
+                # for row in rows:
+                #     print(row)
                 return [
                     {
                         str(var): str(val) 
