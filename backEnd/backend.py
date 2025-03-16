@@ -17,41 +17,47 @@ def handle_query():
     data = request.get_json()
     if not data or 'waybill' not in data:
         return jsonify({"error": "Missing 'waybill' in request body"}), 400
-    query_actions = {
-        #相关方信息
-        "Shipper": InvolvedParty.shipper,
-        "Consignee": InvolvedParty.consinee,
-        "Issued_by":InvolvedParty.airline,
-        "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
-        "Accounting_Information":InvolvedParty.accountingInformation,
-        #航班信息
-        "To": FightInformation.arrivalLocationCode,
-        "Airport_of_Departure": FightInformation.departureLocation,
-        "First_Carrier": FightInformation.airlineCode,
-        "Airport_of_Destination": FightInformation.locationName,
-        "Flight": FightInformation.transportIdentifier,
-        "Date": FightInformation.departureDate,
-        "No_of_Pieces": BasicWaybillInformation.pieceReferences,
-        "Signature_of_Shipper_or_his Agent": BasicWaybillInformation.consignorDeclarationSignature,
-        "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace
-    }
-    response = {}
-    processor = JsonldProcessor(data['waybill'])
-    
-    for key, query in query_actions.items():
-        start_time = time.perf_counter()  # 记录开始时间
-        try:
-            result = processor.execute_sparql_query(query)
-            response[key] = result
-        except Exception as e:
-            response[f"{key}_error"] = str(e)
-        finally:  # 无论成功与否都会执行
-            duration = time.perf_counter() - start_time  # 计算耗时
-            # 打印带查询标识和耗时的信息（保留2位小数）
-            print(f"Query '{key}' executed in {duration:.6f} seconds")
-    
-    return jsonify(response)
+
+    try:
+        waybill_data = data['waybill']
+        print("Received waybill data:", waybill_data)  # 添加调试日志
+        
+        # 如果是简单格式，直接返回
+        if isinstance(waybill_data, dict) and 'Name' in waybill_data and 'Address' in waybill_data:
+            response = {
+                "Shipper": {
+                    "Name": waybill_data['Name'],
+                    "Address": waybill_data['Address']
+                }
+            }
+            print("Response for simple format:", response)  # 添加调试日志
+            return jsonify(response)
+            
+        # 否则使用 ONE Record 格式处理
+        processor = JsonldProcessor(waybill_data)
+        
+        # 获取发货人信息
+        shipper_result = processor.execute_sparql_query(InvolvedParty.shipper)
+        print("SPARQL query result:", shipper_result)  # 添加调试日志
+        
+        # 获取收货人信息
+        consignee_result = processor.execute_sparql_query(InvolvedParty.consinee)
+        response = {
+            "Shipper": {
+                "Name": shipper_result.get("Name", "") if shipper_result else "",
+                "Address": shipper_result.get("Address", "") if shipper_result else ""
+            },
+            "Consignee": {
+                "Name": consignee_result.get("Name", "") if consignee_result else "",
+                "Address": consignee_result.get("Address", "") if consignee_result else ""
+            }
+        }
+        
+        print("Response for ONE Record format:", response)  # 添加调试日志
+        return jsonify(response)
+    except Exception as e:
+        print("Error:", str(e))  # 添加调试日志
+        return jsonify({"error": str(e)}), 500
 
 class JsonldProcessor:
     def __init__(self, jsonld_data):
@@ -96,4 +102,4 @@ class JsonldProcessor:
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)
