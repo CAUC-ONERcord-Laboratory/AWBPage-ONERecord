@@ -66,16 +66,15 @@ def handle_query():
     data = request.get_json()
     if not data or 'waybill' not in data:
         return jsonify({"error": "Missing 'waybill' in request body"}), 400
-    url = "http://127.0.0.1:3000/JSON-LD/piece.json"
-    pieceData = getPieceData(url)
 
     response = {}
     waybillProcessor = JsonldProcessor(data['waybill'])
     piecesCount = waybillProcessor.graph.query(PieceLevel.piecesCount)
     pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)
-    # pieceLevelProcessor(piecesCount,pieceURL)
+
     pieceDataProcessor = PieceDataProcessor(pieceURL)
-    pieceDataProcessor.play()
+    pieceTotal=pieceDataProcessor.play()
+    response.update(pieceTotal)
 
     total_start_time = time.perf_counter()  # 记录总耗时
     for key, query in query_actions.items():
@@ -167,6 +166,7 @@ class PieceDataProcessor:
             'chargeableWeight': PieceLevel.weight.chargeableWeight
             # 可扩展其他属性
         }
+        self.total_attribute={}
 
     def process_pieces(self, result_dict):
         """处理所有piece数据"""
@@ -210,9 +210,14 @@ class PieceDataProcessor:
         total_gross = self.get_total('grossWeight')
         total_chargeable = self.get_total('chargeableWeight')
         
+        self.total_attribute["total_gross"]  = self.get_total('grossWeight')
+        self.total_attribute["total_chargeable"]  = self.get_total('chargeableWeight')
+
         print("毛重数据:", gross_weights)
         print("计费重数据:", chargeable_weights)
         print(f"总毛重: {total_gross}, 总计费重: {total_chargeable}")
+
+        return self.total_attribute
 
 
 if __name__ == '__main__':
