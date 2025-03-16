@@ -1,0 +1,42 @@
+{
+	"@context": {
+        "cargo": "https://onerecord.iata.org/ns/cargo#",
+        "code": "https://onerecord.iata.org/ns/code-lists/"
+    },
+                "@type": "cargo:Piece",
+				"cargo:grossWeight":{
+						"@type": "cargo:Value",
+						"cargo:numericalValue":102,
+						"cargo:unit":{
+							"@id": "https://onerecord.iata.org/ns/code-lists/MeasurementUnitCode#KGM"
+						}
+				},
+				"cargo:volumetricWeight":{
+					"@type":"cargo:VolumetricWeight",
+					"cargo:chargeableWeight": {
+						"@type": "cargo:Value",
+						"cargo:numericalValue":222,
+						"cargo:unit":{
+							"@id": "https://onerecord.iata.org/ns/code-lists/MeasurementUnitCode#KGM"
+						}
+					}
+				},
+				"cargo:goodsDescription":"EXPRESS",
+				"cargo:dimensions":{
+					"@type":"cargo:Dimensions",
+					"cargo:volume":{
+						"@type":"cargo:Value",
+						"cargo:numericalValue":4.57,
+						"cargo:unit":""
+					}
+				},
+				"cargo:specialHandlingCodes":"",
+				"cargo:nvdForCarriage":{
+					"@type":"http://www.w3.org/2001/XMLSchema#boolean",
+					"@value":"TRUE"
+				},
+				"cargo:nvdForCustoms":{
+					"@type":"http://www.w3.org/2001/XMLSchema#boolean",
+					"@value":"TRUE"
+				}
+}
