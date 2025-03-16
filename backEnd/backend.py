@@ -34,7 +34,7 @@ def handle_query():
         "No_of_Pieces": BasicWaybillInformation.pieceReferences,
         "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
         "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace,
+        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
 
         #费用相关
         "WT_VAL": Charge.weightValuationIndicator,
@@ -43,6 +43,7 @@ def handle_query():
         "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
         "Amount_of_Insurance": Charge.insuredAmount,
         "Rate_Charge": Charge.rateCharge,
+
         # "Total": "",
         # "Weight_Charge_Prepaid": "",
         "Other_Charges": Charge.othercharge,
@@ -56,6 +57,7 @@ def handle_query():
     response = {}
     processor = JsonldProcessor(data['waybill'])
     
+    total_start_time = time.perf_counter()  # 记录总耗时
     for key, query in query_actions.items():
         start_time = time.perf_counter()  # 记录开始时间
         try:
@@ -67,6 +69,8 @@ def handle_query():
             duration = time.perf_counter() - start_time  # 计算耗时
             # 打印带查询标识和耗时的信息（保留2位小数）
             print(f"Query '{key}' executed in {duration:.6f} seconds")
+    total_duration = time.perf_counter() - total_start_time  # 计算总耗时
+    print(f"Total execution time: {total_duration:.6f} seconds")
     
     return jsonify(response)
 
@@ -92,15 +96,20 @@ class JsonldProcessor:
             if len(rows) == 0:
                 return []
             
-            # 如果只有一行，返回单个字典 {}
             elif len(rows) == 1:
-                return {
-                    str(var): str(val) 
-                    for var, val in rows[0].asdict().items()
-                }
+                result_row = rows[0]  # 直接操作 ResultRow 对象
+                if len(result_row) == 1:  # 检查结果行是否只有一个元素
+                    # 直接提取第一个元素的 URI 字符串
+                    return str(rows[0][0])  # 例如 'https://onerecord.iata.org/ns/code-lists/RateClassCode#Q'
+                else:
+                    # 如果是多列结果，保持原逻辑转为字典（可选）
+                    return {str(k): str(v) for k, v in result_row.asdict().items()}
             
             # 如果有多行，返回列表 [ {}, {}, ... ]
             else:
+
+                # for row in rows:
+                #     print(row)
                 return [
                     {
                         str(var): str(val) 
