@@ -1,14 +1,63 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from rdflib import Graph
-from rdflib.plugins.sparql import processUpdate
 import json
 from sparql_queries import *
 import time
+import requests
+from collections import defaultdict
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/query": {"origins": "http://127.0.0.1:3000"}})
+query_actions = {
+    # #相关方信息
+    # "Shipper": InvolvedParty.shipper,
+    # "Consignee": InvolvedParty.consinee,
+    # "Issued_by":InvolvedParty.airline,
+    # "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
+    # "Accounting_Information":InvolvedParty.accountingInformation,
+    # #航班信息
+    # "To": FightInformation.arrivalLocation,
+    # "Airport_of_Departure": FightInformation.departureLocation,
+    # "First_Carrier": FightInformation.airlineCode,
+    # "Airport_of_Destination": FightInformation.arrivalLocation,
+    # "Flight": FightInformation.transportIdentifier,
+    # "Date": FightInformation.departureDate,
+
+    #PieceLevel
+    "Piece_Count": PieceLevel.piecesCount,
+    "Piece_References_URL": PieceLevel.pieceReferenceURL,
+    "grossWeight": PieceLevel.weight.grossWeight,
+    'chargeableWeight': PieceLevel.weight.chargeableWeight
+
+
+    # #Basic Waybill Information
+    # "No_of_Pieces": BasicWaybillInformation.pieceReferences,
+    # "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
+    # "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
+    # "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+
+    # #费用相关
+    # "WT_VAL": Charge.weightValuationIndicator,
+    # "Other": Charge.otherChargesIndicator,
+    # "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
+    # "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
+    # "Amount_of_Insurance": Charge.insuredAmount,
+    # "Rate_Charge": Charge.rateCharge,
+    # "Other_Charges": Charge.othercharge,
+    # "Rate_Class_Code": Charge.rateClassCode,
+
+    # "Total": "",
+    # "Weight_Charge_Prepaid": "",
+
+    # "Total_Other_Charges_Due_Agent": Charge.dueAgent,
+    # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
+    # "Total_Prepaid": "",
+    # "Total_Collect":"",
+
+    # "Currency": ""
+}
 
 
 @app.route('/query', methods=['POST'])
@@ -17,58 +66,28 @@ def handle_query():
     data = request.get_json()
     if not data or 'waybill' not in data:
         return jsonify({"error": "Missing 'waybill' in request body"}), 400
-    query_actions = {
-        #相关方信息
-        "Shipper": InvolvedParty.shipper,
-        "Consignee": InvolvedParty.consinee,
-        "Issued_by":InvolvedParty.airline,
-        "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
-        "Accounting_Information":InvolvedParty.accountingInformation,
-        #航班信息
-        "To": FightInformation.arrivalLocation,
-        "Airport_of_Departure": FightInformation.departureLocation,
-        "First_Carrier": FightInformation.airlineCode,
-        "Airport_of_Destination": FightInformation.arrivalLocation,
-        "Flight": FightInformation.transportIdentifier,
-        "Date": FightInformation.departureDate,
-        "No_of_Pieces": BasicWaybillInformation.pieceReferences,
-        "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
-        "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-        "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+    url = "http://127.0.0.1:3000/JSON-LD/piece.json"
+    pieceData = getPieceData(url)
 
-        #费用相关
-        "WT_VAL": Charge.weightValuationIndicator,
-        "Other": Charge.otherChargesIndicator,
-        "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
-        "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
-        "Amount_of_Insurance": Charge.insuredAmount,
-        "Rate_Charge": Charge.rateCharge,
-
-        # "Total": "",
-        # "Weight_Charge_Prepaid": "",
-        "Other_Charges": Charge.othercharge,
-        # "Total_Other_Charges_Due_Agent": Charge.dueAgent,
-        # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
-        # "Total_Prepaid": "",
-        # "Total_Collect":"",
-        "Rate_Class_Code": Charge.rateClassCode,
-        # "Currency": ""
-    }
     response = {}
-    processor = JsonldProcessor(data['waybill'])
-    
+    waybillProcessor = JsonldProcessor(data['waybill'])
+    piecesCount = waybillProcessor.graph.query(PieceLevel.piecesCount)
+    pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)
+    # pieceLevelProcessor(piecesCount,pieceURL)
+    pieceDataProcessor = PieceDataProcessor(pieceURL)
+    pieceDataProcessor.play()
+
     total_start_time = time.perf_counter()  # 记录总耗时
     for key, query in query_actions.items():
         start_time = time.perf_counter()  # 记录开始时间
         try:
-            result = processor.execute_sparql_query(query)
+            result = waybillProcessor.execute_sparql_query(query)#执行查询
             response[key] = result
         except Exception as e:
             response[f"{key}_error"] = str(e)
         finally:  # 无论成功与否都会执行
             duration = time.perf_counter() - start_time  # 计算耗时
-            # 打印带查询标识和耗时的信息（保留2位小数）
-            print(f"Query '{key}' executed in {duration:.6f} seconds")
+            # print(f"Query '{key}' executed in {duration:.6f} seconds")
     total_duration = time.perf_counter() - total_start_time  # 计算总耗时
     print(f"Total execution time: {total_duration:.6f} seconds")
     
@@ -79,10 +98,8 @@ class JsonldProcessor:
         self.jsonld_data = jsonld_data
         self.graph = Graph()
         self.graph.parse(data=json.dumps(jsonld_data), format='json-ld')
-    
-    def jsonld_to_rdf_graph(self):
-        """将 JSON-LD 数据转换为 RDF 图"""
-        return self.graph
+        with open('graph_output.ttl', 'w') as f:
+            f.write(self.graph.serialize(format='turtle'))
     def execute_sparql_query(self,sparql_query):
         """执行 SPARQL 查询并返回 JSON 序列化结果"""
         results = self.graph.query(sparql_query)
@@ -118,7 +135,84 @@ class JsonldProcessor:
                     for row in rows
                 ]
 
+def getPieceData(url):
+    try:
+        # 发送 GET 请求
+        response = requests.get(url)
+        
+        # 检查响应状态码（200 表示成功）
+        if response.status_code == 200:
+            # 解析 JSON 数据
+            json_data = response.json()
+            print("Piece获取成功！")
+            # print(json_data)
+            return json_data
+        else:
+            print(f"请求失败，状态码：{response.status_code}")
 
+    except requests.exceptions.RequestException as e:
+        print(f"请求异常：{e}")
+    except ValueError as e:
+        print(f"JSON 解析失败：{e}")
+class PieceDataProcessor:
+    def __init__(self,pieceURL):
+        self.urlList=list(pieceURL)
+        # 使用嵌套字典存储所有属性数据
+        self.attributes = defaultdict(dict)
+        # 存储处理器实例
+        self.processors = {}
+        # 定义需要提取的属性和对应查询
+        self.QUERY_MAPPING = {
+            'grossWeight': PieceLevel.weight.grossWeight,
+            'chargeableWeight': PieceLevel.weight.chargeableWeight
+            # 可扩展其他属性
+        }
+
+    def process_pieces(self, result_dict):
+        """处理所有piece数据"""
+        for url, piece_data in result_dict.items():
+            try:
+                processor = JsonldProcessor(piece_data)
+                self.processors[url] = processor
+                
+                # 为每个属性执行查询
+                for attr, query in self.QUERY_MAPPING.items():
+                    try:
+                        result = processor.execute_sparql_query(query)
+                        self.attributes[attr][url] = float(result)  # 假设结果为数值
+                    except Exception as e:
+                        print(f"{url} 的 {attr} 查询失败: {str(e)}")
+                        self.attributes[attr][url] = None
+                        
+            except Exception as e:
+                print(f"处理器创建失败 {url}: {str(e)}")
+                continue
+
+    def get_total(self, attribute):
+        """获取指定属性的总和"""
+        values = [v for v in self.attributes[attribute].values() if v is not None]
+        return sum(values) if values else 0
+
+    def get_attribute_data(self, attribute):
+        """获取指定属性的完整数据"""
+        return dict(self.attributes[attribute])
+    def play(self):
+
+        result_dict = {str(item[0]): getPieceData(str(item[0])) for item in self.urlList}#获取piece数据存在字典中
+        # 假设已经获取result_dict
+        self.process_pieces(result_dict)
+        
+        # 获取各属性数据
+        gross_weights = self.get_attribute_data('grossWeight')
+        chargeable_weights = self.get_attribute_data('chargeableWeight')
+        
+        # 计算总和
+        total_gross = self.get_total('grossWeight')
+        total_chargeable = self.get_total('chargeableWeight')
+        
+        print("毛重数据:", gross_weights)
+        print("计费重数据:", chargeable_weights)
+        print(f"总毛重: {total_gross}, 总计费重: {total_chargeable}")
 
 
 if __name__ == '__main__':

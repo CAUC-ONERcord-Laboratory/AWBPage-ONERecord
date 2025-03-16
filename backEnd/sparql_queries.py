@@ -261,3 +261,44 @@ class Charge:
         # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
         # "Total_Prepaid": "",
         # "Total_Collect":"",
+class PieceLevel:
+        piecesCount="""
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                        SELECT (COUNT(?pieceRef) AS ?pieceCount)
+                        WHERE {
+                        # 定位到具体的 WaybillLineItem
+                        ?waybillLineItem a cargo:WaybillLineItem ;
+                        
+                        cargo:pieceReferences ?pieceRef .
+                        }
+                        GROUP BY ?waybillLineItem
+                        """
+        pieceReferenceURL="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                        SELECT ?pieceURL
+                        WHERE {
+                        ?waybillLineItem a cargo:WaybillLineItem ;
+                                        cargo:pieceReferences ?pieceURL .
+                        }"""
+        class weight:
+            grossWeight="""
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                        SELECT ?numericalValue
+                        WHERE {
+                        # 匹配类型为 cargo:Piece 的节点
+                        ?piece a cargo:Piece ;
+                                # 获取其 cargo:grossWeight 属性
+                                cargo:grossWeight/cargo:numericalValue ?numericalValue ;
+                        }"""
+            chargeableWeight="""
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        PREFIX code:  <https://onerecord.iata.org/ns/code-lists/>
+
+                        SELECT ?numericalValue
+                        WHERE {
+                        ?piece a cargo:Piece ;
+                                cargo:volumetricWeight/cargo:chargeableWeight/cargo:numericalValue ?numericalValue ;
+
+                        }"""
