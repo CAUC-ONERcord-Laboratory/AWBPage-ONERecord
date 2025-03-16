@@ -69,7 +69,8 @@ def handle_query():
             duration = time.perf_counter() - start_time  # 计算耗时
             # 打印带查询标识和耗时的信息（保留2位小数）
             print(f"Query '{key}' executed in {duration:.6f} seconds")
-
+    total_duration = time.perf_counter() - total_start_time  # 计算总耗时
+    print(f"Total execution time: {total_duration:.6f} seconds")
     
     return jsonify(response)
 
