@@ -281,6 +281,26 @@ class PieceLevel:
                         ?waybillLineItem a cargo:WaybillLineItem ;
                                         cargo:pieceReferences ?pieceURL .
                         }"""
+        dimensions="""
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                        SELECT ?numericalValue
+                        WHERE {
+                        # 匹配类型为 cargo:Piece 的节点
+                        ?piece a cargo:Piece ;
+                                # 获取其 cargo:dimensions 属性
+                                cargo:dimensions/cargo:volume/cargo:numericalValue ?numericalValue ;
+                        }"""
+        goodsDescription="""
+                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                        SELECT ?goodsDescription
+                        WHERE {
+                        # 匹配类型为 cargo:Piece 的节点
+                        ?piece a cargo:Piece ;
+                                
+                                cargo:goodsDescription ?goodsDescription;
+                        }"""
         class weight:
             grossWeight="""
                         PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>

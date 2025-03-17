@@ -26,7 +26,9 @@ query_actions = {
     # "Date": FightInformation.departureDate,
 
     #PieceLevel
-    "No_of_Pieces": PieceLevel.piecesCount
+    "No_of_Pieces": PieceLevel.piecesCount,
+    "Piece_References_URL": PieceLevel.pieceReferenceURL,
+                'goodsDescription': PieceLevel.goodsDescription,
 
 
     # #Basic Waybill Information
@@ -69,6 +71,7 @@ def handle_query():
 
     #处理Piece数据
     pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)#获取piece的URL
+    print(pieceURL)
     pieceDataProcessor = PieceDataProcessor(pieceURL)
     pieceTotal=pieceDataProcessor.attributeTotal()
     response.update(pieceTotal)
@@ -162,7 +165,9 @@ class PieceDataProcessor:
         # 定义需要提取的属性和对应查询
         self.QUERY_MAPPING = {
             'grossWeight': PieceLevel.weight.grossWeight,
-            'chargeableWeight': PieceLevel.weight.chargeableWeight
+            'chargeableWeight': PieceLevel.weight.chargeableWeight,
+            'dimensions': PieceLevel.dimensions,
+            'goodsDescription': PieceLevel.goodsDescription,
             # 可扩展其他属性
         }
         self.total_attribute={}
@@ -178,7 +183,9 @@ class PieceDataProcessor:
                 for attr, query in self.QUERY_MAPPING.items():
                     try:
                         result = processor.execute_sparql_query(query)
-                        self.attributes[attr][url] = float(result)  # 假设结果为数值
+                        self.attributes[attr][url] = float(result)
+
+
                     except Exception as e:
                         print(f"{url} 的 {attr} 查询失败: {str(e)}")
                         self.attributes[attr][url] = None
@@ -204,17 +211,24 @@ class PieceDataProcessor:
         # 获取各属性数据
         gross_weights = self.get_attribute_data('grossWeight')
         chargeable_weights = self.get_attribute_data('chargeableWeight')
+        dimensions = self.get_attribute_data('dimensions')
+        goods_descriptions = self.get_attribute_data('goodsDescription')
         
         # 计算总和
         total_gross = self.get_total('grossWeight')
         total_chargeable = self.get_total('chargeableWeight')
+        total_dimensions = self.get_total('dimensions')
+        # total_goods_descriptions = self.get_total('goodsDescription')
         
         #存入字典
         self.total_attribute["total_gross"]  = total_gross
         self.total_attribute["total_chargeable"]  = total_chargeable
+        self.total_attribute["total_dimensions"]  = total_dimensions
 
         print("毛重数据:", gross_weights)
         print("计费重数据:", chargeable_weights)
+        print("尺寸数据:", dimensions)
+        print("货物描述数据:", goods_descriptions)
         print(f"总毛重: {total_gross}, 总计费重: {total_chargeable}")
 
         return self.total_attribute
