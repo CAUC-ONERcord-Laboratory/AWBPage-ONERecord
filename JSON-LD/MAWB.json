@@ -7,12 +7,6 @@
     "cargo:waybillType": {
         "@id": "cargo:MASTER"
     },
-	"cargo:houseWaybills":[
-		{
-			"@type":"cargo:Waybill",
-			"@id":"http://127.0.0.1:3000/JSON-LD/HAWB.json"
-		}
-	],
     "cargo:waybillNumber": "324-01961794",
     "cargo:involvedParties": [
         {
@@ -49,7 +43,7 @@
 			"@type": "cargo:Party",
                 "cargo:partyDetails": {
                     "@type": "cargo:Company",
-                    "cargo:name": " ",
+                    "cargo:name": "test_agent",
 					"cargo:iataCargoAgentCode":"",
                     "cargo:basedAtLocation": {
                         "@type": "cargo:Location",
@@ -130,11 +124,8 @@
         },
         "cargo:pieces": [
             {
-                "@id":"http://127.0.0.1:3000/JSON-LD/piece1.json"
-            },
-			{
-				"@id":"http://127.0.0.1:3000/JSON-LD/piece2.json"
-			}
+                "@id":"https://pieces_example"
+            }
         ],
 		"cargo:totalGrossWeight":"",
         "cargo:totalDimensions": [
@@ -166,9 +157,14 @@
             },
 			"cargo:pieceReferences":[
 				{
-					"@id":"https://pieces_example"
+					"@id":"http://127.0.0.1:3000/JSON-LD/piece1.json"
+				},
+				{
+					"@id":"http://127.0.0.1:3000/JSON-LD/piece2.json"
+				},
+                				{
+					"@id":"http://127.0.0.1:3000/JSON-LD/piece3.json"
 				}
-			
 			]
         }
     ],
