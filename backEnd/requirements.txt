@@ -1,6 +1,6 @@
 # Web 框架
 Flask==3.0.3
-flask-cors==5.0.1
+flask-cors==4.0.2
 
 # RDF 处理
 rdflib==7.1.3

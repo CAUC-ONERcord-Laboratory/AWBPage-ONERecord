@@ -1,81 +1,113 @@
+/* 全局样式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    overflow-x: hidden;
+}
+
+/* 导航栏样式 */
+.nav-bar {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.nav-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* 主要容器样式 */
 .main-wrapper {
     display: flex;
-    justify-content: center; /* 主轴线居中 */
-    padding: 20px;
-    min-height: 100vh;
-    box-sizing: border-box;
-  }
-  .waybill-container {
-    position: relative;
-    width: 650px;  /* 匹配你的模板尺寸 */
+    padding-top: 4rem;
+    height: calc(100vh - 4rem);
+}
 
-    text-align: center;
-    background: white;
-    padding: 0px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-    
-}
-#shipperName {
-    position: absolute; top: 65px; left: 63px; width: 200px; height: 25px; border: 1px solid red;
-    font-size: 16px;
-    /* 字体大小 */
-}
-#consigneeName {
-    position: absolute; top: 138px; left: 63px; width: 200px; height: 25px; border: 1px solid red;
-    font-size: 16px;
-    /* 字体大小 */
-}
+/* 容器卡片样式 */
 .container {
-    text-align: center;
-    margin-left : 90px;
-    background: white;
-    padding: 10px;
-    width: 600px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    min-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.3s ease;
+    background-color: white;
+    position: relative;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transform: translateX(0);
 }
-.json-input {
-    width: 80%;
-    height: 700px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 3px solid #ccc;
-    border-radius: 4px;
-  }
 
-  /* 按钮基础样式 */
+.container.collapsed {
+    transform: translateX(-420px);
+}
+
+.toggle-btn {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-btn:hover {
+    background-color: #45a049;
+}
+
+/* JSON输入框样式 */
+.json-input {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    resize: none;
+    background-color: white;
+}
+
+/* 提交按钮样式 */
 .submit-btn {
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
-    /* 按钮悬停交互（可选增强） */
+    font-size: 1rem;
+}
+
 .submit-btn:hover {
-    background-color: #0056b3;
-    }
-.waybill-bg {
+    background-color: #45a049;
+}
+
+/* 运单容器样式 */
+.waybill-container {
+    flex: 1;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-left: 0;
     width: 100%;
-    height: auto;
-    z-index: 1;
 }
 
-.data-field {
-    position: absolute;
-    z-index: 2;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    color: #333;
-    pointer-events: none; /* 防止点击遮挡 */
-}
-
-/* 特殊字段样式示例 */
-.sender-address {
-    font-size: 12px;
-    line-height: 1.4;
-    max-width: 200px;
+.waybill-container.expanded {
+    margin-left: -420px;
+    width: calc(100% + 420px);
 }
