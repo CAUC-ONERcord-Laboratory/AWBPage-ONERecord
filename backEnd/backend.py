@@ -26,10 +26,7 @@ query_actions = {
     # "Date": FightInformation.departureDate,
 
     #PieceLevel
-    "Piece_Count": PieceLevel.piecesCount,
-    "Piece_References_URL": PieceLevel.pieceReferenceURL,
-    "grossWeight": PieceLevel.weight.grossWeight,
-    'chargeableWeight': PieceLevel.weight.chargeableWeight
+    "No_of_Pieces": PieceLevel.piecesCount
 
 
     # #Basic Waybill Information
@@ -69,13 +66,14 @@ def handle_query():
 
     response = {}
     waybillProcessor = JsonldProcessor(data['waybill'])
-    piecesCount = waybillProcessor.graph.query(PieceLevel.piecesCount)
-    pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)
 
+    #处理Piece数据
+    pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)#获取piece的URL
     pieceDataProcessor = PieceDataProcessor(pieceURL)
-    pieceTotal=pieceDataProcessor.play()
+    pieceTotal=pieceDataProcessor.attributeTotal()
     response.update(pieceTotal)
 
+    #处理Waybill数据
     total_start_time = time.perf_counter()  # 记录总耗时
     for key, query in query_actions.items():
         start_time = time.perf_counter()  # 记录开始时间
@@ -154,6 +152,7 @@ def getPieceData(url):
     except ValueError as e:
         print(f"JSON 解析失败：{e}")
 class PieceDataProcessor:
+    """处理 Piece 数据"""
     def __init__(self,pieceURL):
         self.urlList=list(pieceURL)
         # 使用嵌套字典存储所有属性数据
@@ -196,7 +195,7 @@ class PieceDataProcessor:
     def get_attribute_data(self, attribute):
         """获取指定属性的完整数据"""
         return dict(self.attributes[attribute])
-    def play(self):
+    def attributeTotal(self):
 
         result_dict = {str(item[0]): getPieceData(str(item[0])) for item in self.urlList}#获取piece数据存在字典中
         # 假设已经获取result_dict
@@ -210,8 +209,9 @@ class PieceDataProcessor:
         total_gross = self.get_total('grossWeight')
         total_chargeable = self.get_total('chargeableWeight')
         
-        self.total_attribute["total_gross"]  = self.get_total('grossWeight')
-        self.total_attribute["total_chargeable"]  = self.get_total('chargeableWeight')
+        #存入字典
+        self.total_attribute["total_gross"]  = total_gross
+        self.total_attribute["total_chargeable"]  = total_chargeable
 
         print("毛重数据:", gross_weights)
         print("计费重数据:", chargeable_weights)
