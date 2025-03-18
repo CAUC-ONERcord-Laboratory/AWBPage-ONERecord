@@ -28,14 +28,14 @@ query_actions = {
     #PieceLevel
     "No_of_Pieces": PieceLevel.piecesCount,
     "Piece_References_URL": PieceLevel.pieceReferenceURL,
-                'goodsDescription': PieceLevel.goodsDescription,
 
 
-    # #Basic Waybill Information
-    # "No_of_Pieces": BasicWaybillInformation.pieceReferences,
-    # "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
-    # "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-    # "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+    #Basic Waybill Information
+    "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
+    "Signature_of_Carrier_or_his_Agent": BasicWaybillInformation.carrierDeclarationSignature,
+    "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
+    "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+
 
     # #费用相关
     # "WT_VAL": Charge.weightValuationIndicator,
@@ -46,7 +46,7 @@ query_actions = {
     # "Rate_Charge": Charge.rateCharge,
     # "Other_Charges": Charge.othercharge,
     # "Rate_Class_Code": Charge.rateClassCode,
-
+    #需要计算得出的费用
     # "Total": "",
     # "Weight_Charge_Prepaid": "",
 
@@ -149,6 +149,8 @@ def getPieceData(url):
             return json_data
         else:
             print(f"请求失败，状态码：{response.status_code}")
+            return {"error": f"Request failed with status code {response.status_code}"}
+            
 
     except requests.exceptions.RequestException as e:
         print(f"请求异常：{e}")
@@ -182,8 +184,12 @@ class PieceDataProcessor:
                 # 为每个属性执行查询
                 for attr, query in self.QUERY_MAPPING.items():
                     try:
-                        result = processor.execute_sparql_query(query)
-                        self.attributes[attr][url] = float(result)
+                        if attr=='goodsDescription':
+                            result = processor.execute_sparql_query(query)
+                            self.attributes[attr][url] = result
+                        else:
+                            result = processor.execute_sparql_query(query)
+                            self.attributes[attr][url] = float(result)
 
 
                     except Exception as e:
@@ -218,12 +224,12 @@ class PieceDataProcessor:
         total_gross = self.get_total('grossWeight')
         total_chargeable = self.get_total('chargeableWeight')
         total_dimensions = self.get_total('dimensions')
-        # total_goods_descriptions = self.get_total('goodsDescription')
         
         #存入字典
         self.total_attribute["total_gross"]  = total_gross
         self.total_attribute["total_chargeable"]  = total_chargeable
         self.total_attribute["total_dimensions"]  = total_dimensions
+        self.total_attribute["total_goods_descriptions"]  = goods_descriptions
 
         print("毛重数据:", gross_weights)
         print("计费重数据:", chargeable_weights)
