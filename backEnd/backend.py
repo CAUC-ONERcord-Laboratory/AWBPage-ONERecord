@@ -26,17 +26,16 @@ query_actions = {
     # "Date": FightInformation.departureDate,
 
     #PieceLevel
-    "Piece_Count": PieceLevel.piecesCount,
+    "No_of_Pieces": PieceLevel.piecesCount,
     "Piece_References_URL": PieceLevel.pieceReferenceURL,
-    "grossWeight": PieceLevel.weight.grossWeight,
-    'chargeableWeight': PieceLevel.weight.chargeableWeight
 
 
-    # #Basic Waybill Information
-    # "No_of_Pieces": BasicWaybillInformation.pieceReferences,
-    # "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
-    # "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-    # "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+    #Basic Waybill Information
+    "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
+    "Signature_of_Carrier_or_his_Agent": BasicWaybillInformation.carrierDeclarationSignature,
+    "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
+    "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+
 
     # #费用相关
     # "WT_VAL": Charge.weightValuationIndicator,
@@ -47,7 +46,7 @@ query_actions = {
     # "Rate_Charge": Charge.rateCharge,
     # "Other_Charges": Charge.othercharge,
     # "Rate_Class_Code": Charge.rateClassCode,
-
+    #需要计算得出的费用
     # "Total": "",
     # "Weight_Charge_Prepaid": "",
 
@@ -69,13 +68,15 @@ def handle_query():
 
     response = {}
     waybillProcessor = JsonldProcessor(data['waybill'])
-    piecesCount = waybillProcessor.graph.query(PieceLevel.piecesCount)
-    pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)
 
+    #处理Piece数据
+    pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)#获取piece的URL
+    print(pieceURL)
     pieceDataProcessor = PieceDataProcessor(pieceURL)
-    pieceTotal=pieceDataProcessor.play()
+    pieceTotal=pieceDataProcessor.attributeTotal()
     response.update(pieceTotal)
 
+    #处理Waybill数据
     total_start_time = time.perf_counter()  # 记录总耗时
     for key, query in query_actions.items():
         start_time = time.perf_counter()  # 记录开始时间
@@ -148,12 +149,15 @@ def getPieceData(url):
             return json_data
         else:
             print(f"请求失败，状态码：{response.status_code}")
+            return {"error": f"Request failed with status code {response.status_code}"}
+            
 
     except requests.exceptions.RequestException as e:
         print(f"请求异常：{e}")
     except ValueError as e:
         print(f"JSON 解析失败：{e}")
 class PieceDataProcessor:
+    """处理 Piece 数据"""
     def __init__(self,pieceURL):
         self.urlList=list(pieceURL)
         # 使用嵌套字典存储所有属性数据
@@ -163,7 +167,9 @@ class PieceDataProcessor:
         # 定义需要提取的属性和对应查询
         self.QUERY_MAPPING = {
             'grossWeight': PieceLevel.weight.grossWeight,
-            'chargeableWeight': PieceLevel.weight.chargeableWeight
+            'chargeableWeight': PieceLevel.weight.chargeableWeight,
+            'dimensions': PieceLevel.dimensions,
+            'goodsDescription': PieceLevel.goodsDescription,
             # 可扩展其他属性
         }
         self.total_attribute={}
@@ -178,8 +184,14 @@ class PieceDataProcessor:
                 # 为每个属性执行查询
                 for attr, query in self.QUERY_MAPPING.items():
                     try:
-                        result = processor.execute_sparql_query(query)
-                        self.attributes[attr][url] = float(result)  # 假设结果为数值
+                        if attr=='goodsDescription':
+                            result = processor.execute_sparql_query(query)
+                            self.attributes[attr][url] = result
+                        else:
+                            result = processor.execute_sparql_query(query)
+                            self.attributes[attr][url] = float(result)
+
+
                     except Exception as e:
                         print(f"{url} 的 {attr} 查询失败: {str(e)}")
                         self.attributes[attr][url] = None
@@ -196,7 +208,7 @@ class PieceDataProcessor:
     def get_attribute_data(self, attribute):
         """获取指定属性的完整数据"""
         return dict(self.attributes[attribute])
-    def play(self):
+    def attributeTotal(self):
 
         result_dict = {str(item[0]): getPieceData(str(item[0])) for item in self.urlList}#获取piece数据存在字典中
         # 假设已经获取result_dict
@@ -205,16 +217,24 @@ class PieceDataProcessor:
         # 获取各属性数据
         gross_weights = self.get_attribute_data('grossWeight')
         chargeable_weights = self.get_attribute_data('chargeableWeight')
+        dimensions = self.get_attribute_data('dimensions')
+        goods_descriptions = self.get_attribute_data('goodsDescription')
         
         # 计算总和
         total_gross = self.get_total('grossWeight')
         total_chargeable = self.get_total('chargeableWeight')
+        total_dimensions = self.get_total('dimensions')
         
-        self.total_attribute["total_gross"]  = self.get_total('grossWeight')
-        self.total_attribute["total_chargeable"]  = self.get_total('chargeableWeight')
+        #存入字典
+        self.total_attribute["total_gross"]  = total_gross
+        self.total_attribute["total_chargeable"]  = total_chargeable
+        self.total_attribute["total_dimensions"]  = total_dimensions
+        self.total_attribute["total_goods_descriptions"]  = goods_descriptions
 
         print("毛重数据:", gross_weights)
         print("计费重数据:", chargeable_weights)
+        print("尺寸数据:", dimensions)
+        print("货物描述数据:", goods_descriptions)
         print(f"总毛重: {total_gross}, 总计费重: {total_chargeable}")
 
         return self.total_attribute
