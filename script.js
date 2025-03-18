@@ -86,6 +86,29 @@ function fillWaybillData(data) {
         'Declared_Value_For_Carriage.Value': 'declared_value_for_carriage_value',
         'Declared_Value_For_Customs.Value': 'declared_value_for_customs_value',
         'Amount_of_Insurance.Value': 'amount_of_insurance_value',
+        'total_gross': 'total_gross',
+        "total_chargeable": "total_chargeable",
+        'Rate_Charge.Value': 'rate_charge_value',
+
+
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+        // Other_Charges
+
+
+        'Signature_of_Shipper_or_his_Agent':'signature_of_shipper_or_his_agent',
+        'Executed_Date':'executed_date',
+        'Executed_Place': 'executed_place',
+
+
+
 
     };
 

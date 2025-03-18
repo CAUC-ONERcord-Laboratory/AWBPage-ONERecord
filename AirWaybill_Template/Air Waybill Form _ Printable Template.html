@@ -183,6 +183,7 @@
 						</div>
 						<div class="oneline" style="width:69px">
 							<p>Gross Weight</p>
+							<input type="text" id="total_gross" class="form-input" />
 						</div>
 						<div class="oneline" style="width:10px;padding-left:0px;padding-right:0px;">
 							<p>kg<br>lb</p>
@@ -219,6 +220,8 @@
 					<div style="border:none;padding:0;width: 78px">
 						<div class="oneline" style="width:69px">
 							<p>Chargeable Weight</p>
+							<input type="text" id="total_chargeable" class="form-input" />
+							
 						</div>
 						<div style="width:69px;height:233px">
 						</div>
@@ -227,6 +230,7 @@
 					<div style="border:none;padding:0;width: 78px">
 						<div class="oneline" style="width:69px">
 							<p>Rate / Charge</p>
+							<input type="text" id="rate_charge_value" class="form-input" />
 						</div>
 						<div style="width:69px;height:233px">
 						</div>
@@ -384,11 +388,15 @@
 				</div>
 				<div style="height:10px;border-right:1px solid #CCC;border-bottom:1px solid #CCC;text-align:center;">
 					<p>Signature of Shipper of his Agent</p>
+					<input type="text" id="signature_of_shipper_or_his_agent" class="form-input" />					
 				</div>
 				<div style="height:42px;border-right:1px solid #CCC;border-bottom:1px dashed #CCC;padding: 2px 4px 2px 4px">
 				</div>
 				<div style="height:10px;border-right:1px solid #CCC;border-bottom:1px solid #CCC;text-align:center;padding: 0 4px 0 4px">
-					<p><span style="float:left">Executed on (date)</span>at (place)<span style="float:right">Signature of Issuing Carrier or its Agent</span></p>
+					<p><span style="float:left">Executed on (date)
+						<input type="text" id="executed_date" class="form-input" />		
+					</span>at (place)<input type="text" id="executed_place" class="form-input" />		
+					<span style="float:right">Signature of Issuing Carrier or its Agent</span></p>
 				</div>
 				<div class="oneLine" style="width:155px;">
 					<div style="float:left;width:100%;height:11px;border-right:1px solid #CCC;border-top:3px solid #CCC;text-align:center;">
