@@ -106,7 +106,9 @@ function fillWaybillData(data) {
         'Signature_of_Shipper_or_his_Agent':'signature_of_shipper_or_his_agent',
         'Executed_Date':'executed_date',
         'Executed_Place': 'executed_place',
-
+        'No_of_Pieces': 'no_of_pieces',
+        'total_dimensions': 'total_dimensions',
+        'total_goods_descriptions': 'total_goods_descriptions',
 
 
 
