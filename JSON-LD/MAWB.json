@@ -25,36 +25,36 @@
             }
         },
         {
-                "@type": "cargo:Party",
-                "cargo:partyDetails": {
-                    "@type": "cargo:Organization",
-                    "cargo:name": "OCS OSAKA OFFICE",
-                    "cargo:basedAtLocation": {
-                        "@type": "cargo:Location",
-                        "cargo:locationName": "SENSHU KUKO MINAMI SENNAN SHI"
-                    }
-                },
-                "cargo:partyRole": {
-                    "@type": "code:ParticipantIdentifier",
-                    "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#CNE"
+            "@type": "cargo:Party",
+            "cargo:partyDetails": {
+                "@type": "cargo:Organization",
+                "cargo:name": "OCS OSAKA OFFICE",
+                "cargo:basedAtLocation": {
+                    "@type": "cargo:Location",
+                    "cargo:locationName": "SENSHU KUKO MINAMI SENNAN SHI"
                 }
+            },
+            "cargo:partyRole": {
+                "@type": "code:ParticipantIdentifier",
+                "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#CNE"
+            }
         },
-		{
-			"@type": "cargo:Party",
-                "cargo:partyDetails": {
-                    "@type": "cargo:Company",
-                    "cargo:name": "test_agent",
-					"cargo:iataCargoAgentCode":"",
-                    "cargo:basedAtLocation": {
-                        "@type": "cargo:Location",
-                        "cargo:locationName": ""
-                    }
-                },
-                "cargo:partyRole": {
-                    "@type": "code:ParticipantIdentifier",
-                    "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AGT"
+        {
+            "@type": "cargo:Party",
+            "cargo:partyDetails": {
+                "@type": "cargo:Company",
+                "cargo:name": "test_agent",
+                "cargo:iataCargoAgentCode": "",
+                "cargo:basedAtLocation": {
+                    "@type": "cargo:Location",
+                    "cargo:locationName": ""
                 }
-		},
+            },
+            "cargo:partyRole": {
+                "@type": "code:ParticipantIdentifier",
+                "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AGT"
+            }
+        },
         {
             "@type": "cargo:Party",
             "cargo:partyDetails": {
@@ -124,22 +124,11 @@
         },
         "cargo:pieces": [
             {
-                "@id":"https://pieces_example"
+                "@id": "https://pieces_example"
             }
         ],
-		"cargo:totalGrossWeight":"",
-        "cargo:totalDimensions": [
-            {
-                "cargo:volume": {
-                    "@type": "cargo:Value",
-                    "cargo:unit": {
-                        "@id": "https://onerecord.iata.org/ns/code-lists/MeasurementUnitCode#KGM"
-                    },
-                    "cargo:numericalValue": 391
-                }
-            }
-        ],
-		"cargo:textualHandlingInstructions":[""]
+        "cargo:totalGrossWeight": "",
+        "cargo:totalDimensions": ""
     },
     "cargo:waybillLineItems": [
         {
@@ -155,17 +144,17 @@
                 },
                 "cargo:numericalValue": 6.5
             },
-			"cargo:pieceReferences":[
-				{
-					"@id":"http://127.0.0.1:3000/JSON-LD/piece1.json"
-				},
-				{
-					"@id":"http://127.0.0.1:3000/JSON-LD/piece2.json"
-				},
-                				{
-					"@id":"http://127.0.0.1:3000/JSON-LD/piece3.json"
-				}
-			]
+            "cargo:pieceReferences": [
+                {
+                    "@id": "http://127.0.0.1:3000/JSON-LD/piece1.json"
+                },
+                {
+                    "@id": "http://127.0.0.1:3000/JSON-LD/piece2.json"
+                },
+                {
+                    "@id": "http://127.0.0.1:3000/JSON-LD/piece3.json"
+                }
+            ]
         }
     ],
     "cargo:referredBookingOption": {
@@ -211,9 +200,9 @@
             "cargo:otherChargeCode": {
                 "@id": "https://onerecord.iata.org/ns/code-lists/OtherChargeCode#AW"
             },
-			"cargo:entitlement":{
-				"@id":"https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
-			},
+            "cargo:entitlement": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
+            },
             "cargo:reasonDescription": "Air Waybill Fee due carrier",
             "cargo:otherChargeAmount": {
                 "@type": "cargo:CurrencyValue",
@@ -229,9 +218,9 @@
             "cargo:otherChargeCode": {
                 "@id": "https://onerecord.iata.org/ns/code-lists/OtherChargeCode#IN"
             },
-			"cargo:entitlement":{
-				"@id":"https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
-			},
+            "cargo:entitlement": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
+            },
             "cargo:reasonDescription": "Insurance Premium due carrier",
             "cargo:otherChargeAmount": {
                 "@type": "cargo:CurrencyValue",
@@ -240,38 +229,6 @@
                     "@value": "CNY"
                 },
                 "cargo:numericalValue": 12
-            }
-        },
-        {
-            "@type": "cargo:OtherCharge",
-            "cargo:entitlement": {
-                "@type": "cargo:EntitlementCode",
-                "@id": "https://onerecord.iata.org/ns/code-lists/EntitlementCode#A"
-            },
-            "cargo:reasonDescription": "Total Other Charges Due Agent",
-            "cargo:otherChargeAmount": {
-                "@type": "cargo:CurrencyValue",
-                "cargo:currencyUnit": {
-                    "@type": "code:CurrencyCode",
-                    "@value": "CNY"
-                },
-                "cargo:numericalValue": 0
-            }
-        },
-        {
-            "@type": "cargo:OtherCharge",
-            "cargo:entitlement": {
-                "@type": "cargo:EntitlementCode",
-                "@id": "https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
-            },
-            "cargo:reasonDescription": "Total Other Charges Due Carrier",
-            "cargo:otherChargeAmount": {
-                "@type": "cargo:CurrencyValue",
-                "cargo:currencyUnit": {
-                    "@type": "code:CurrencyCode",
-                    "@value": "CNY"
-                },
-                "cargo:numericalValue": 62
             }
         }
     ],

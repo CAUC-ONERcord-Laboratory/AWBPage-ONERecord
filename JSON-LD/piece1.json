@@ -6,7 +6,7 @@
                 "@type": "cargo:Piece",
 				"cargo:grossWeight":{
 						"@type": "cargo:Value",
-						"cargo:numericalValue":101,
+						"cargo:numericalValue":291,
 						"cargo:unit":{
 							"@id": "https://onerecord.iata.org/ns/code-lists/MeasurementUnitCode#KGM"
 						}
@@ -15,7 +15,7 @@
 					"@type":"cargo:VolumetricWeight",
 					"cargo:chargeableWeight": {
 						"@type": "cargo:Value",
-						"cargo:numericalValue":111,
+						"cargo:numericalValue":663,
 						"cargo:unit":{
 							"@id": "https://onerecord.iata.org/ns/code-lists/MeasurementUnitCode#KGM"
 						}
@@ -26,7 +26,7 @@
 					"@type":"cargo:Dimensions",
 					"cargo:volume":{
 						"@type":"cargo:Value",
-						"cargo:numericalValue":4.57,
+						"cargo:numericalValue":3.57,
 						"cargo:unit":""
 					}
 				},
