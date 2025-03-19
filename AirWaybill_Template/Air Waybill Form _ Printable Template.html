@@ -40,16 +40,17 @@
 				<div id="headLeft">
 					<div>
 						<p>Shipper's Name and Address</p>
-						<input type="text" id="shipperName" class="form-input" />
-						<input type="text" id="shipperAddress" class="form-input" />
+					<input type="text" id="shipperName" style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;" />
+					<input type="text" id="shipperAddress"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"style="display: block;font-size: 12px; margin-top: 5px; width: 300px; height: 15px;" />
 					</div>
 					<div>
 						<p>Consignee's Name and Address</p>
-						<input type="text" id="consigneeName" class="form-input" />
-						<input type="text" id="consigneeAddress" class="form-input" />
+						<input type="text" id="consigneeName"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;" />
+						<input type="text" id="consigneeAddress"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"style="display: block;font-size: 12px; margin-top: 5px; width: 300px; height: 15px;" />
 					</div>
 					<div class="twoLine">
 						<p>Issuing Carrier's Agent Name and City</p>
+						<input type="text" id="issuing_carrier_agent"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"/>
 					</div>
 					<div class="oneLine" style="float:left;width:187px">
 						<p>Agent's AITA Code</p>
@@ -59,12 +60,15 @@
 					</div>
 					<div class="oneLine" style="float:left;width:392px">
 						<p>Airport of Departure (Addr. of First Carrier) and Requested Routing</p>
+						<input type="text" id="airport_of_departure"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; width: 300px; height: 15px;"style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;">
 					</div>
 					<div class="oneLine" style="float:left;width:32px">
 						<p>To</p>
+						<input type="text" id="to"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; margin-left:-2px; height: 15px; width: 35px;">
 					</div>
 					<div class="oneLine" style="float:left;width:187px">
 						<p>By First Carrier</p>
+						<input type="text" id="first_carrier"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; width: 185px; height: 15px;"style="display: block;">
 					</div>
 					<div class="oneLine" style="float:left;width:32px">
 						<p>to</p>
@@ -80,20 +84,26 @@
 					</div>
 					<div class="oneLine" style="float:left;width:187px">
 						<p>Airport of Destination</p>
+						<input type="text" id="airport_of_destination"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; width: 185px; height: 15px;">
 					</div>
 					<div class="oneLine" style="position: relative;float:left;width:89px">
-						<p>Flight Date</p>
-						<div class="spanTitle" style="left:55px;width:76px;height:6px;background:#fff;text-align:center;">For Carrier Use Only</div>
+						<p>Flight</p>
+						<div class="spanTitle" style="left:55px;width:76px;height:6px;background:#fff;text-align:center;">For Carrier Use Only
+							<input type="text" id="flight"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; margin-left: -57px; width: 90px; height: 15px;">
+						</div>
 					</div>
 					<div class="oneLine" style="text-align:right;float:left;width:89px;">
-						<p>Flight Date</p>
+						<p>Date</p>
+						<input type="text" id="date" class="form-input" style="display: block; font-size: 12px; margin-top: 1px; margin-left: 0px; width: 90px; height: 15px;">
 					</div>
 				</div><!--end headLeft-->
 				<div id="headRight">
 					<div class="twoLine">
 						<p>Not Negotiable</p>
 						<h4>Air Waybill</h4>
-						<p>Issued By</p>
+						<p>Issued By</p>       
+						<input type="text" id="issued_byName"  class="form-input" style="display: block; font-size: 11px; margin-top: 2px; width: 300px; height: 13px;"style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"/>     
+						<input type="text" id="issued_byAirlinecode"  class="form-input" style="display: block; font-size: 11px; margin-top: 2px; width: 300px; height: 13px;"style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"/>   
 					</div>
 					<div class="oneLine">
 						<p style="vertical-align: center;line-height:25px">Copies 1, 2 and 3 of this Air Waybill are originals and have the same validity</p>
@@ -103,6 +113,7 @@
 					</div>
 					<div>
 						<p>Accounting Information:</p>
+						<input type="text" id="accounting_information"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 300px; height: 15px;"/>
 					</div>
 					<div class="oneLine" style="position:relative;float:left;width:126px">
 						<p>Reference Number</p>
@@ -124,9 +135,11 @@
 						</div>
 						<div style="float:left;padding:0;width:20px;height:24px;border:none;border-right:1px solid #CCC;">
 							<p>PPD</p>
+							<input type="text" id="wt_val"  class="form-input" style="display: block; font-size: 8px; margin-top: -2px; width: 18px; height: 10px;"/>     
 						</div>
 						<div style="float:left;padding:0;width:20px;height:19px;border:none;">
 							<p>COLL</p>
+							<input type="text" id="wt_val"  class="form-input" style="display: block;  font-size: 8px; margin-top: -2px; width: 18px; height: 10px;"/>     
 						</div>
 					</div>
 					<div class="oneLine lbNone" style="float:left;width:42px;height:34px;padding:0;text-align:center;">
@@ -135,19 +148,24 @@
 						</div>
 						<div style="float:left;padding:0;width:20px;height:24px;border:none;border-right:1px solid #CCC;">
 							<p>PPD</p>
+							<input type="text" id="other"  class="form-input" style="display: block;  font-size: 8px; margin-top: -2px; width: 18px; height: 10px;"/>     
 						</div>
 						<div style="float:left;padding:0;width:20px;height:19px;border:none;">
 							<p>COLL</p>
+							<input type="text" id="other"  class="form-input" style="display: block;  font-size: 8px; margin-top: -2px; width: 18px; height: 10px;"/>     
 						</div>
 					</div>
 					<div class="oneLine lbNone" style="float:left;width:121px">
 						<p>Declared Value for Carriage</p>
+						<input type="text" id="declared_value_for_carriage_value"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; width: 120px; height: 15px;"/> 
 					</div>
 					<div class="oneLine lbNone" style="float:left;width:120px">
 						<p>Declared Value for Customs</p>
+						<input type="text" id="declared_value_for_customs_value"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; width: 120px; height: 15px;"/> 					
 					</div>
 					<div class="oneLine" style="text-align:center;float:left;width:89px;">
 						<p>Amount of Insurance</p>
+						<input type="text" id="amount_of_insurance_value"  class="form-input" style="display: block; font-size: 12px; margin-top: 1px; width: 90px; height: 15px;"/>
 					</div>
 					<div class="oneLine lbNone" style="font-family:arial;float:left;width:300px;text-align:justify;text-justify:inter-word;line-height:11px" "="">
 						<p style="padding-top:0;">INSURANCE - If carrier offers insurance, and such insurance is requested in accordance with the conditions thereof, indicate amount to be insured in figures in box marked "Amount of Insurance."</p>
@@ -162,16 +180,20 @@
 					<div style="border:none;padding:0;width: 133px">
 						<div class="oneline" style="width:35px">
 							<p>No. of Pieces RCP</p>
+	
 						</div>
 						<div class="oneline" style="width:69px">
 							<p>Gross Weight</p>
+							
 						</div>
 						<div class="oneline" style="width:10px;padding-left:0px;padding-right:0px;">
 							<p>kg<br>lb</p>
 						</div>
 						<div style="width:35px;height:198px">
+							<input type="text" id="no_of_pieces"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 34px; height: 190px;"/>	
 						</div>
 						<div style="width:69px;height:198px">
+							<input type="text" id="total_gross"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 68px; height: 190px;"/>
 						</div>
 						<div style="width:10px;height:198px;border-bottom:none;padding-left:0px;padding-right:0px;">
 						</div>
@@ -201,16 +223,21 @@
 					<div style="border:none;padding:0;width: 78px">
 						<div class="oneline" style="width:69px">
 							<p>Chargeable Weight</p>
+							
 						</div>
 						<div style="width:69px;height:233px">
+							<input type="text" id="total_chargeable"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 68px; height: 220px;"/>
+							
 						</div>
 					</div>
 					<div style="border-right:11px solid #CCC;height:268px;padding-left:0px;padding-right:0px;background-color:#CCC"></div>
 					<div style="border:none;padding:0;width: 78px">
 						<div class="oneline" style="width:69px">
 							<p>Rate / Charge</p>
+							
 						</div>
 						<div style="width:69px;height:233px">
+							<input type="text" id="rate_charge_value"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 68px; height: 220px;"/>
 						</div>
 					</div>
 					<div style="border-right:11px solid #CCC;height:268px;padding-left:0px;padding-right:0px;background-color:#CCC"></div>
@@ -225,8 +252,11 @@
 					<div style="border:none;padding:0;width: 253px">
 						<div class="oneline" style="width:244px">
 							<p>Nature and Quantity of Goods (inc. Dimensions or Volume)</p>
+	
 						</div>
 						<div style="width:244px;height:233px">
+							<input type="text" id="total_dimensions"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 240px; height: 100px;" />
+							<input type="text" id="total_goods_descriptions"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 240px; height: 100px;"/>
 						</div>
 					</div>
 				</div>
@@ -366,11 +396,16 @@
 				</div>
 				<div style="height:10px;border-right:1px solid #CCC;border-bottom:1px solid #CCC;text-align:center;">
 					<p>Signature of Shipper of his Agent</p>
+					
 				</div>
 				<div style="height:42px;border-right:1px solid #CCC;border-bottom:1px dashed #CCC;padding: 2px 4px 2px 4px">
+					<input type="text" id="signature_of_shipper_or_his_agent"  class="form-input" style="display: block; font-size: 12px; margin-top: 5px; width: 400px; height: 30px;"/>					
 				</div>
 				<div style="height:10px;border-right:1px solid #CCC;border-bottom:1px solid #CCC;text-align:center;padding: 0 4px 0 4px">
-					<p><span style="float:left">Executed on (date)</span>at (place)<span style="float:right">Signature of Issuing Carrier or its Agent</span></p>
+					<p><span style="float:left">Executed on (date)
+						<input type="text" id="executed_date"  class="form-input" style="font-size: 6px; margin-top: 0px; width: 100px; height: 7px;"/>		
+					</span>at (place)<input type="text" id="executed_place"  class="form-input" style="font-size: 6px; margin-top: 0px; width: 100px; height: 7px;"/>		
+					<span style="float:right">Signature of Issuing Carrier or its Agent</span></p>
 				</div>
 				<div class="oneLine" style="width:155px;">
 					<div style="float:left;width:100%;height:11px;border-right:1px solid #CCC;border-top:3px solid #CCC;text-align:center;">
