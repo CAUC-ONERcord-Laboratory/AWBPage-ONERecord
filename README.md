@@ -6,12 +6,15 @@ A web application that recognizes and fills in the AWB template with the ONE Rec
 Front end:
 
 ```shell
+# Node.js environment is required
 http-server -p 3000
 ```
 
 Back end:
 
 ```shell
+cd backEnd
+pip install -r requirements.txt
 python backend.py
 ```
 

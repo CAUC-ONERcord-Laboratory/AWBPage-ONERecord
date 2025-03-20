@@ -4,3 +4,5 @@ flask-cors==4.0.2
 
 # RDF 处理
 rdflib==7.1.3
+
+requests==2.31.0   
