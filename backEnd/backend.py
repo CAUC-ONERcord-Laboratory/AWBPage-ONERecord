@@ -9,23 +9,23 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/query": {"origins": "http://127.0.0.1:3000"}})
 query_actions = {
-    # #相关方信息
-    # "Shipper": InvolvedParty.shipper,
-    # "Consignee": InvolvedParty.consinee,
-    # "Issued_by":InvolvedParty.airline,
-    # "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
-    # "Accounting_Information":InvolvedParty.accountingInformation,
-    # #航班信息
-    # "To": FightInformation.arrivalLocation,
-    # "Airport_of_Departure": FightInformation.departureLocation,
-    # "First_Carrier": FightInformation.airlineCode,
-    # "Airport_of_Destination": FightInformation.arrivalLocation,
-    # "Flight": FightInformation.transportIdentifier,
-    # "Date": FightInformation.departureDate,
+    #相关方信息
+    "Shipper": InvolvedParty.shipper,
+    "Consignee": InvolvedParty.consinee,
+    "Issued_by":InvolvedParty.airline,
+    "Issuing_Carrier_Agent":InvolvedParty.carrierAgent,
+    "Accounting_Information":InvolvedParty.accountingInformation,
+    #航班信息
+    "To": FightInformation.arrivalLocation,
+    "Airport_of_Departure": FightInformation.departureLocation,
+    "First_Carrier": FightInformation.airlineCode,
+    "Airport_of_Destination": FightInformation.arrivalLocation,
+    "Flight": FightInformation.transportIdentifier,
+    "Date": FightInformation.departureDate,
 
-    # #PieceLevel
-    # "No_of_Pieces": PieceLevel.piecesCount,
-    # "Piece_References_URL": PieceLevel.pieceReferenceURL,
+    #PieceLevel
+    "No_of_Pieces": PieceLevel.piecesCount,
+    "Piece_References_URL": PieceLevel.pieceReferenceURL,
 
 
     #Basic Waybill Information
@@ -33,17 +33,17 @@ query_actions = {
     "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
     "Signature_of_Carrier_or_his_Agent": BasicWaybillInformation.carrierDeclarationSignature,
     "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
-    "Excuted_Place": BasicWaybillInformation.carrierDeclarationPlace, 
+    "Executed_Place": BasicWaybillInformation.carrierDeclarationPlace, 
 
 
-    # #费用相关
-    # "WT_VAL": Charge.weightValuationIndicator,
-    # "Other": Charge.otherChargesIndicator,
-    # "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
-    # "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
-    # "Amount_of_Insurance": Charge.insuredAmount,
+    #费用相关
+    "WT_VAL": Charge.weightValuationIndicator,
+    "Other": Charge.otherChargesIndicator,
+    "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
+    "Declared_Value_For_Customs": Charge.declaredValueForCustoms,
+    "Amount_of_Insurance": Charge.insuredAmount,
     "Rate_Charge": Charge.rateCharge,
-    # "Other_Charges": Charge.othercharge,
+    "Other_Charges": Charge.othercharge,
     "Rate_Class_Code": Charge.rateClassCode,
     
     #需要计算得出的费用

@@ -14,8 +14,8 @@ class JsonldProcessor:
 
         # 将 SPARQL 结果转换为 JSON 格式
         rows = list(results)#List便于统计行数
-        print("rows",rows)
-        print("rows[0]:",rows[0])
+        # print("rows",rows)
+        # print("rows[0]:",rows[0])
         if not rows:  # 空结果快速返回
             return []       
         # 根据结果行数分发处理逻辑
