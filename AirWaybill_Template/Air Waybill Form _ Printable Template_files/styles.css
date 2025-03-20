@@ -68,18 +68,24 @@ input:focus, textarea:focus {
 	}
 
 .button {
-	display: inline;
-	padding: 4px 8px; 
+	display: inline-block;  /* 改为 inline-block */
+	padding: 8px 16px;      /* 增加内边距 */
 	background-color: #008cba; 
 	color: #FFF;
-    font: bold .95em Helvetica; 
-    text-decoration: none;
-    }
+	font: bold 14px Helvetica;  /* 调整字体大小 */
+	text-decoration: none;
+	border-radius: 4px;     /* 添加圆角 */
+	cursor: pointer;        /* 添加手型光标 */
+	border: none;           /* 移除边框 */
+	height: auto;           /* 覆盖之前的固定高度 */
+	width: auto;            /* 覆盖之前的固定宽度 */
+	margin: 10px;           /* 添加外边距 */
+}
     
 .button:hover { 
-	 color: #FFF;
-	 background-color: #006f94;
-	}
+	color: #FFF;
+	background-color: #006f94;
+}
 	
 .green {
 	background-color: #4CAF50;

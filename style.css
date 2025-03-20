@@ -29,6 +29,7 @@ body {
     display: flex;
     padding-top: 4rem;
     height: calc(100vh - 4rem);
+    position: relative;
 }
 
 /* 容器卡片样式 */
@@ -39,15 +40,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     background-color: white;
     position: relative;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     transform: translateX(0);
-}
-
-.container.collapsed {
-    transform: translateX(-420px);
+    z-index: 20;  /* 提高容器层级 */
 }
 
 .toggle-btn {
@@ -65,10 +63,72 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 25;  /* 确保按钮在最上层 */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    font-size: 20px;
+    font-weight: bold;
 }
 
-.toggle-btn:hover {
-    background-color: #45a049;
+/* 运单容器样式 */
+.waybill-container {
+    flex: 1;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-left: 0;
+    width: 100%;
+    position: relative;
+    z-index: 10;  /* 降低运单容器层级 */
+    overflow: hidden;  /* 防止内容溢出 */
+}
+
+/* iframe 样式 */
+.waybill-container iframe {
+    position: relative;
+    z-index: 1;  /* 确保 iframe 在最底层 */
+}
+
+.container.collapsed {
+    transform: translateX(-420px) !important;  /* 添加 !important 确保样式生效 */
+    background-color: #f5f5f5;
+}
+
+/* 运单容器样式 */
+.waybill-container {
+    flex: 1;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-left: 0;
+    width: 100%;
+    position: relative;  /* 添加定位 */
+    z-index: 5;  /* 确保比容器的z-index低 */
+}
+
+.waybill-container.expanded {
+    margin-left: -420px !important;  /* 添加 !important */
+    width: calc(100% + 420px) !important;  /* 添加 !important */
+}
+
+.toggle-btn {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    font-size: 20px;  /* 增大箭头字体 */
+    font-weight: bold;  /* 加粗箭头 */
 }
 
 /* JSON输入框样式 */
@@ -80,6 +140,12 @@ body {
     font-family: monospace;
     resize: none;
     background-color: white;
+    position: relative;
+    z-index: 5;  /* 确保输入框在按钮下层 */
+}
+
+.toggle-btn:hover {
+    background-color: #45a049;
 }
 
 /* 提交按钮样式 */
@@ -95,19 +161,4 @@ body {
 
 .submit-btn:hover {
     background-color: #45a049;
-}
-
-/* 运单容器样式 */
-.waybill-container {
-    flex: 1;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    margin-left: 0;
-    width: 100%;
-}
-
-.waybill-container.expanded {
-    margin-left: -420px;
-    width: calc(100% + 420px);
 }
