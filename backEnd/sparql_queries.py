@@ -122,6 +122,12 @@ class FightInformation:
                       """
 
 class BasicWaybillInformation:
+    waybillNumber="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                    SELECT ?waybillNumber
+                    WHERE {
+                        ?waybill a cargo:Waybill ; 
+                        cargo:waybillNumber ?waybillNumber .
+                        }"""
     pieceReferences="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                         SELECT ?pieceRefId
                         WHERE {
@@ -236,8 +242,6 @@ class Charge:
                                         ].
                         }
                         """
-        # "Total": "",
-        # "Weight_Charge_Prepaid": "",
         othercharge=""" PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                         SELECT ?otherChargeCode ?resonDescription ?Value ?Unit ?entitlement
                         WHERE { 
@@ -258,6 +262,24 @@ class Charge:
                         WHERE { 
                             ?waybill cargo:rateClassCode ?rateClassCode.
                         }"""
+        class needToCulculate:
+             
+             dueCarrier="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                            SELECT (SUM(?value) AS ?totalSumValue) 
+                            WHERE {
+                                ?charge a cargo:OtherCharge ;
+                                        cargo:entitlement <https://onerecord.iata.org/ns/code-lists/EntitlementCode#C> ;
+                                        cargo:otherChargeAmount/cargo:numericalValue ?value .
+                            }"""
+             durAgent="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+
+                            SELECT (SUM(?value) AS ?totalSumValue) 
+                            WHERE {
+                                ?charge a cargo:OtherCharge ;
+                                        cargo:entitlement <https://onerecord.iata.org/ns/code-lists/EntitlementCode#A> ;
+                                        cargo:otherChargeAmount/cargo:numericalValue ?value .
+                            }"""
         # "Total_Other_Charges_Due_Carrier": Charge.dueCarrier,
         # "Total_Prepaid": "",
         # "Total_Collect":"",

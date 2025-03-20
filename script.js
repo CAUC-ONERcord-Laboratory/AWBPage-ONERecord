@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
         userInput: document.getElementById('user-input')
     };
 
+    // 添加调试代码
+    console.log('DOM Elements:', DOM);
+    
+    if (!DOM.toggleBtn) {
+        console.error('Toggle button not found!');
+        return;
+    }
+
     // Iframe初始化
     if (DOM.iframe) {
         DOM.iframe.addEventListener('load', () => {
@@ -41,14 +49,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 视图切换
-    DOM.toggleBtn?.addEventListener('click', () => toggleView());
+    DOM.toggleBtn?.addEventListener('click', (e) => {
+        console.log('Toggle button clicked!'); // 添加调试日志
+        e.preventDefault(); // 防止事件冒泡
+        toggleView();
+    });
 
     // 视图控制函数
     function toggleView(expand) {
-        const isExpanded = expand ?? DOM.container.classList.contains('collapsed');
+        console.log('Toggle view called, current state:', DOM.container.classList.contains('collapsed')); // 添加调试日志
+        const isExpanded = expand ?? !DOM.container.classList.contains('collapsed'); // 修改这里，改变逻辑
+        console.log('Will expand to:', isExpanded); // 添加调试日志
+        
+        // 强制触发重排
+        DOM.container.style.display = 'flex';
+        DOM.waybillContainer.style.display = 'block';
+        
+        // 设置类名
         DOM.container.classList.toggle('collapsed', isExpanded);
         DOM.waybillContainer.classList.toggle('expanded', isExpanded);
         DOM.toggleBtn.innerHTML = isExpanded ? '≪' : '≫';
+        
+        // 打印当前状态
+        console.log('Classes after toggle:', {
+            container: DOM.container.className,
+            waybill: DOM.waybillContainer.className
+        });
     }
 });
 
@@ -86,8 +112,8 @@ function fillWaybillData(data) {
         'Declared_Value_For_Carriage.Value': 'declared_value_for_carriage_value',
         'Declared_Value_For_Customs.Value': 'declared_value_for_customs_value',
         'Amount_of_Insurance.Value': 'amount_of_insurance_value',
-        'total_gross': 'total_gross',
-        "total_chargeable": "total_chargeable",
+        'Total_Gross_Weight': 'total_gross',
+        "Total_Chargeable_Weight": "total_chargeable",
         'Rate_Charge.Value': 'rate_charge_value',
 
 
@@ -108,7 +134,7 @@ function fillWaybillData(data) {
         'Executed_Place': 'executed_place',
         'No_of_Pieces': 'no_of_pieces',
         'total_dimensions': 'total_dimensions',
-        'total_goods_descriptions': 'total_goods_descriptions',
+        'Total_Goods_Descriptions': 'total_goods_descriptions',
 
 
 
@@ -117,9 +143,29 @@ function fillWaybillData(data) {
     // 通用填充方法
     Object.entries(DATA_MAPPING).forEach(([dataPath, elementId]) => {
         const element = doc.getElementById(elementId);
+        let value = getNestedValue(data, dataPath) || '';
+        
+        // 特殊处理空值字段
+        const DEFAULT_VALUES = {
+            'amount_of_insurance_value': 'NIL',
+            'declared_value_for_carriage_value': 'NVD',
+            'declared_value_for_customs_value': 'NCV'
+        };
+        
+        value = value || DEFAULT_VALUES[elementId] || value;
+        
+        console.log(`正在填充字段:`, {
+            路径: dataPath,
+            元素ID: elementId,
+            值: value,
+            元素是否存在: !!element
+        });
+
         if (element) {
-            element.value = getNestedValue(data, dataPath) || '';
+            element.value = value;
             triggerChange(element);
+        } else {
+            console.warn(`未找到元素: ${elementId}`);
         }
     });
 }
