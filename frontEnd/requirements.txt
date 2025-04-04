@@ -1,5 +1,0 @@
-flask
-flask-cors
-rdflib
-jsonlib
-SPARQLWrapper
