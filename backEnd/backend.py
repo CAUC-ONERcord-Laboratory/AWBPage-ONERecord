@@ -31,7 +31,7 @@ query_actions = {
     #Basic Waybill Information
     "Waybill_Number": BasicWaybillInformation.waybillNumber,
     "Signature_of_Shipper_or_his_Agent": BasicWaybillInformation.consignorDeclarationSignature,
-    "Signature_of_Carrier_or_his_Agent": BasicWaybillInformation.carrierDeclarationSignature,
+    "Signature_of_Carrier_or_its_Agent": BasicWaybillInformation.carrierDeclarationSignature,
     "Executed_Date": BasicWaybillInformation.carrierDeclarationDate,
     "Executed_Place": BasicWaybillInformation.carrierDeclarationPlace, 
 
