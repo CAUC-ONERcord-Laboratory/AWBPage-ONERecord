@@ -3,8 +3,7 @@ Universal
 */
 
 body {
-	background-color: #F0F0F0;
-	background-image:url('../images/bg.png');
+	background-color: #FDFDFD;
 	background-repeat:repeat;
 	font-size: 90%;
 	color: #000;
@@ -45,7 +44,7 @@ textarea {
 	}
 	
 input {
-	background: #baeeee;
+	background: #F0F3F4;
 	height: 10px;
 	margin: 1px;
 	width: 100px;
@@ -70,7 +69,7 @@ input:focus, textarea:focus {
 .button {
 	display: inline-block;  /* 改为 inline-block */
 	padding: 8px 16px;      /* 增加内边距 */
-	background-color: #008cba; 
+	background-color: #6C5CE7; 
 	color: #FFF;
 	font: bold 14px Helvetica;  /* 调整字体大小 */
 	text-decoration: none;
@@ -84,7 +83,7 @@ input:focus, textarea:focus {
     
 .button:hover { 
 	color: #FFF;
-	background-color: #006f94;
+	background-color: #5d4be3;
 }
 	
 .green {

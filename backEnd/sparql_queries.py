@@ -189,19 +189,20 @@ class Charge:
         weightValuationIndicator="""
                                     PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                                     PREFIX PrepaidCollectIndicator: <https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#>
-                                    SELECT ?weightValuationIndicator
+                                    SELECT (STRAFTER(STR(?rawIndicator), "#") AS ?weightValuationIndicator)
                                     WHERE { 
-                                        ?waybill cargo:weightValuationIndicator ?weightValuationIndicator.
+                                        ?waybill cargo:weightValuationIndicator ?rawIndicator.
                                     }
                                     """
         otherChargesIndicator="""
                                 PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                                 PREFIX PrepaidCollectIndicator: <https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#>
-                                SELECT ?otherChargesIndicator
-                                WHERE { 
-                                    ?waybill cargo:otherChargesIndicator ?otherChargesIndicator.
-                                }
-                                """
+
+                                SELECT 
+                                (STRAFTER(STR(?rawIndicator), "#") AS ?otherChargesIndicator) 
+                                WHERE {
+                                ?waybill cargo:otherChargesIndicator ?rawIndicator.
+                                }"""
         declaredValueForCarriage="""
                                     PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
                                     SELECT ?Unit ?Value
@@ -214,7 +215,7 @@ class Charge:
                                     """
         declaredValueForCustoms=""" 
                                 PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
-                                    SELECT ?unit ?Value
+                                    SELECT ?Unit ?Value
                                     WHERE { 
                                         ?waybill cargo:declaredValueForCustoms [
                                                     cargo:currencyUnit ?unit ;
@@ -242,25 +243,42 @@ class Charge:
                                         ].
                         }
                         """
-        othercharge=""" PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
-                        SELECT ?otherChargeCode ?resonDescription ?Value ?Unit ?entitlement
+        # othercharge="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+        #                     SELECT ?reasonDescription ?Value ?Unit 
+        #                         (STRAFTER(STR(?rawEntitlement), "#") AS ?entitlement) 
+        #                         (STRAFTER(STR(?rawOtherChargeCode), "#") AS ?otherChargeCode)
+        #                     WHERE { 
+        #                         ?waybill cargo:otherCharges ?charge .  
+        #                         ?charge a cargo:OtherCharge ;
+        #                                 cargo:otherChargeCode ?rawOtherChargeCode ;
+        #                                 cargo:entitlement ?rawEntitlement ;
+        #                                 cargo:reasonDescription ?reasonDescription ;
+        #                                 cargo:otherChargeAmount [
+        #                                     cargo:currencyUnit ?Unit ;
+        #                                     cargo:numericalValue ?Value
+        #                                 ] .
+        #                     }
+        #                 """
+        othercharge="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        SELECT ?reasonDescription ?Value ?Unit 
+                            (STRAFTER(STR(?rawEntitlement), "#") AS ?entitlement) 
+                            (STRAFTER(STR(?rawOtherChargeCode), "#") AS ?otherChargeCode)
                         WHERE { 
-                                ?waybill cargo:otherCharges [
-                                        a cargo:OtherCharge ;
-                                        cargo:otherChargeCode ?otherChargeCode ;
-                                        cargo:entitlement ?entitlement ;
-                                        cargo:reasonDescription ?resonDescription ;
+                            ?waybill cargo:otherCharges ?otherCharge .
+                            ?otherCharge a cargo:OtherCharge ;
+                                        cargo:otherChargeCode ?rawOtherChargeCode ;
+                                        cargo:entitlement ?rawEntitlement ;
+                                        cargo:reasonDescription ?reasonDescription ;
                                         cargo:otherChargeAmount [
                                             cargo:currencyUnit ?Unit ;
                                             cargo:numericalValue ?Value
-                                        ]
-                                 ]
+                                        ] .
                         }
-                        """
-        rateClassCode="""                        PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
-                        SELECT ?rateClassCode
+                """
+        rateClassCode="""PREFIX cargo: <https://onerecord.iata.org/ns/cargo#>
+                        SELECT (STRAFTER(STR(?rawIndicator), "#") AS ?rateClassCode)
                         WHERE { 
-                            ?waybill cargo:rateClassCode ?rateClassCode.
+                            ?waybill cargo:rateClassCode ?rawIndicator.
                         }"""
         class needToCulculate:
              

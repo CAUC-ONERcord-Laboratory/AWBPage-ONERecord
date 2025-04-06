@@ -3,15 +3,15 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #FDFDFD;
     overflow-x: hidden;
 }
 
 /* 导航栏样式 */
 .nav-bar {
-    background-color: #333;
+    background-color: #FFFFFF;
     color: white;
-    padding: 1rem;
+    padding: 0.5rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,16 +19,42 @@ body {
     z-index: 100;
 }
 
+
 .nav-title {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-family: 'Inter', system-ui, sans-serif; /* 更现代的字体选择 */
+    font-size: 1.4rem;           /* 适当放大字号 */
+    font-weight: 600;            /* 增加字重提升可读性 */
+    letter-spacing: 0.5px;       /* 减少字间距避免松散 */
+    color: #2C3E50;              /* 使用主文字色增强对比度 */
+    position: relative;
+    padding-left: 1.2rem;        /* 为装饰元素预留空间 */
+    transition: color 0.2s ease; /* 添加交互细节 */
+    
+    /* 添加品牌标识线 */
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60%;
+        width: 3px;
+        background: #3498DB;      /* 使用主按钮色形成品牌关联 */
+        border-radius: 2px;
+    }
+
+    /* 可选悬停效果 */
+    &:hover {
+        color: #3498DB;          /* 与装饰线形成色彩呼应 */
+    }
 }
+
 
 /* 主要容器样式 */
 .main-wrapper {
     display: flex;
-    padding-top: 4rem;
-    height: calc(100vh - 4rem);
+    padding-top: 2.5rem;
+    height: calc(100vh - 2.5rem);
     position: relative;
 }
 
@@ -115,7 +141,7 @@ body {
     right: -40px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #4CAF50;
+    background-color: #6C5CE7;
     color: white;
     border: none;
     width: 40px;
@@ -145,13 +171,13 @@ body {
 }
 
 .toggle-btn:hover {
-    background-color: #45a049;
+    background-color: #5d4be3;
 }
 
 /* 提交按钮样式 */
 .submit-btn {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #6C5CE7;
     color: white;
     border: none;
     border-radius: 4px;
@@ -160,5 +186,5 @@ body {
 }
 
 .submit-btn:hover {
-    background-color: #45a049;
+    background-color: #5d4be3;
 }

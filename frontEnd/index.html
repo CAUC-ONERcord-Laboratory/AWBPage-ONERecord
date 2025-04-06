@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Page</title>
+    <title>AWBPage</title>
+    <link rel="icon" type="image/png" href="image/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="AirWaybill_Template/Air Waybill Form _ Printable Template_files/reset.css">
     <link rel="stylesheet" href="AirWaybill_Template/Air Waybill Form _ Printable Template_files/styles.css">
     <link rel="stylesheet" href="AirWaybill_Template/Air Waybill Form _ Printable Template_files/print.css" media="print">
@@ -11,19 +13,21 @@
 </head>
 <body>
     <nav class="nav-bar">
-        <div class="nav-title">Air Waybill System</div>
+        <div class="nav-title"></div>
+            <a href="https://github.com/CAUC-ONERcord-Laboratory/AWBPage-ONERecord" class = "nav-title">ONERecord Waybill</a>
+        </div>
     </nav>
     
     <div class="main-wrapper">
         <div class="container">
             <textarea id="user-input" class="json-input" placeholder="请输入JSON-LD数据"></textarea>
             <button class="submit-btn">提交</button>
-            <button class="toggle-btn">≫</button>
+            <button class="toggle-btn">≪</button>
         </div>
         
         <!-- 运单容器 -->
         <div class="waybill-container">
-            <iframe src="AirWaybill_Template/Air Waybill Form _ Printable Template.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+            <iframe src="./AirWaybill_Template/Air Waybill Form _ Printable Template.html" style="width: 100%; height: 100vh; border: none;"></iframe>
         </div>
     </div>
     <script src="./script.js"></script>

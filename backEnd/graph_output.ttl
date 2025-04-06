@@ -1,0 +1,107 @@
+@prefix cargo: <https://onerecord.iata.org/ns/cargo#> .
+@prefix code: <https://onerecord.iata.org/ns/code-lists/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AGT> a code:ParticipantIdentifier .
+
+<https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AIR> a code:ParticipantIdentifier .
+
+<https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#CNE> a code:ParticipantIdentifier .
+
+<https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#SHP> a code:ParticipantIdentifier .
+
+<https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#P> a code:PrepaidCollectIndicator .
+
+[] a cargo:Waybill ;
+    cargo:accountingNotes [ a cargo:AccountingNote ;
+            cargo:accountingNoteText "运单修改1次 08631297" ] ;
+    cargo:arrivalLocation [ a cargo:Location ;
+            cargo:locationCodes [ a cargo:CodeListElement ;
+                    cargo:code "KIX" ] ] ;
+    cargo:carrierDeclarationDate "2025-02-06T00:00:00"^^xsd:dateTime ;
+    cargo:carrierDeclarationPlace [ a cargo:Location ;
+            cargo:locationCodes [ a cargo:CodeListElement ;
+                    cargo:code "TNA" ] ] ;
+    cargo:carrierDeclarationSignature "Shandong Airline" ;
+    cargo:consignorDeclarationSignature "OCS SHANGHAI CO LTD" ;
+    cargo:declaredValueForCarriage [ a cargo:CurrencyValue ;
+            cargo:currencyUnit "CNY"^^code:CurrencyCode ;
+            cargo:numericalValue 0 ] ;
+    cargo:declaredValueForCustoms [ a cargo:CurrencyValue ;
+            cargo:currencyUnit "CNY"^^code:CurrencyCode ;
+            cargo:numericalValue 0 ] ;
+    cargo:departureLocation [ a cargo:Location ;
+            cargo:locationCodes [ a cargo:CodeListElement ;
+                    cargo:code "TAO" ] ] ;
+    cargo:involvedParties [ a cargo:Party ;
+            cargo:partyDetails [ a cargo:Carrier ;
+                    cargo:airlineCode "SC" ;
+                    cargo:name "Shandong Airline" ;
+                    cargo:shortName "SDA" ] ;
+            cargo:partyRole <https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AIR> ],
+        [ a cargo:Party ;
+            cargo:partyDetails [ a cargo:Organization ;
+                    cargo:basedAtLocation [ a cargo:Location ;
+                            cargo:locationName "SENSHU KUKO MINAMI SENNAN SHI" ] ;
+                    cargo:name "OCS OSAKA OFFICE" ] ;
+            cargo:partyRole <https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#CNE> ],
+        [ a cargo:Party ;
+            cargo:partyDetails [ a cargo:Organization ;
+                    cargo:basedAtLocation [ a cargo:Location ;
+                            cargo:locationName "OCS SHANGHAI CO LTD 21 KEYUAN WEI SAN LU" ] ;
+                    cargo:name "OCS SHANGHAI CO LTD" ] ;
+            cargo:partyRole <https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#SHP> ],
+        [ a cargo:Party ;
+            cargo:partyDetails [ a cargo:Company ;
+                    cargo:basedAtLocation [ a cargo:Location ;
+                            cargo:locationName "" ] ;
+                    cargo:iataCargoAgentCode "" ;
+                    cargo:name "test_agent" ] ;
+            cargo:partyRole <https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AGT> ] ;
+    cargo:otherCharges [ a cargo:OtherCharge ;
+            cargo:entitlement <https://onerecord.iata.org/ns/code-lists/EntitlementCode#C> ;
+            cargo:otherChargeAmount [ a cargo:CurrencyValue ;
+                    cargo:currencyUnit "CNY"^^code:CurrencyCode ;
+                    cargo:numericalValue 50 ] ;
+            cargo:otherChargeCode <https://onerecord.iata.org/ns/code-lists/OtherChargeCode#AW> ;
+            cargo:reasonDescription "Air Waybill Fee due carrier" ],
+        [ a cargo:OtherCharge ;
+            cargo:entitlement <https://onerecord.iata.org/ns/code-lists/EntitlementCode#C> ;
+            cargo:otherChargeAmount [ a cargo:CurrencyValue ;
+                    cargo:currencyUnit "CNY"^^code:CurrencyCode ;
+                    cargo:numericalValue 12 ] ;
+            cargo:otherChargeCode <https://onerecord.iata.org/ns/code-lists/OtherChargeCode#IN> ;
+            cargo:reasonDescription "Insurance Premium due carrier" ] ;
+    cargo:otherChargesIndicator <https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#P> ;
+    cargo:referredBookingOption [ a cargo:Booking ;
+            cargo:bookingRequest [ a cargo:BookingRequest ;
+                    cargo:forBookingOption [ a cargo:BookingOption ;
+                            cargo:transportLegs [ a cargo:TransportLegs ;
+                                    cargo:arrivalLocation [ a cargo:Location ;
+                                            cargo:locationCodes [ a cargo:CodeListElement ;
+                                                    cargo:code "KIX" ] ] ;
+                                    cargo:departureDate "2025-02-07T14:30:45"^^xsd:dateTime ;
+                                    cargo:departureLocation [ a cargo:Location ;
+                                            cargo:locationCodes [ a cargo:CodeListElement ;
+                                                    cargo:code "TAO" ] ] ;
+                                    cargo:transportIdentifier "SC2493" ] ] ] ] ;
+    cargo:shipment [ a cargo:Shipment ;
+            cargo:insurance [ a cargo:Insurance ;
+                    cargo:insuredAmount [ a cargo:CurrencyValue ;
+                            cargo:currencyUnit "CNY"^^code:CurrencyCode ;
+                            cargo:numericalValue 0 ] ] ;
+            cargo:pieces <https://pieces_example> ;
+            cargo:totalDimensions "" ;
+            cargo:totalGrossWeight "" ] ;
+    cargo:waybillLineItems [ a cargo:WaybillLineItem ;
+            cargo:pieceReferences <http://127.0.0.1:3000/JSON-LD/piece1.json>,
+                <http://127.0.0.1:3000/JSON-LD/piece2.json>,
+                <http://127.0.0.1:3000/JSON-LD/piece3.json> ;
+            cargo:rateCharge [ a cargo:CurrencyValue ;
+                    cargo:currencyUnit "CNY"^^code:CurrencyCode ;
+                    cargo:numericalValue 6.5e+00 ] ;
+            cargo:rateClassCode <https://onerecord.iata.org/ns/code-lists/RateClassCode#Q> ] ;
+    cargo:waybillNumber "324-01961794" ;
+    cargo:waybillType cargo:MASTER ;
+    cargo:weightValuationIndicator <https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#P> .
+
