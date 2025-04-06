@@ -1,0 +1,257 @@
+/*__________________________________________________Universal
+Universal
+*/
+
+body {
+	background-color: #FDFDFD;
+	background-repeat:repeat;
+	font-size: 90%;
+	color: #000;
+	font-family: Arial Narrow, Arial, Helvetica, sans-serif;
+	font-stretch: condensed;
+	}
+	
+.left {
+	float: left;
+	}
+	
+.right {
+	float: right;
+	}
+	
+.clear {
+	clear: both;
+	}
+	
+input, textarea {
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	background: transparent;
+	font-family: Arial, Helvetica, sans-serif;
+	}
+	
+p	{
+	font-size: 1em;
+	padding: 2px 0;
+	}
+
+textarea {
+	display: block;
+	background: #E3FAFA;
+	resize: none;
+	}
+	
+input {
+	background: #F0F3F4;
+	height: 10px;
+	margin: 1px;
+	width: 100px;
+	}
+	
+input:hover, textarea:hover {
+	background: #FFFFCC;
+	}
+	
+input:focus, textarea:focus {
+	border: 1px solid #666;
+	}
+
+.price:hover {
+	background: #FFF;
+	}
+
+.price:focus {
+	border: none;
+	}
+
+.button {
+	display: inline-block;  /* 改为 inline-block */
+	padding: 8px 16px;      /* 增加内边距 */
+	background-color: #6C5CE7; 
+	color: #FFF;
+	font: bold 14px Helvetica;  /* 调整字体大小 */
+	text-decoration: none;
+	border-radius: 4px;     /* 添加圆角 */
+	cursor: pointer;        /* 添加手型光标 */
+	border: none;           /* 移除边框 */
+	height: auto;           /* 覆盖之前的固定高度 */
+	width: auto;            /* 覆盖之前的固定宽度 */
+	margin: 10px;           /* 添加外边距 */
+}
+    
+.button:hover { 
+	color: #FFF;
+	background-color: #5d4be3;
+}
+	
+.green {
+	background-color: #4CAF50;
+	color: #FFF;
+	font: .95em Helvetica;
+	}
+
+.green:hover {
+	background-color: #46a049; 
+	}
+	
+/*__________________________________________________Head
+Head
+*/
+
+#head {
+	margin: 0 auto;
+	padding-top: 10px;
+	margin-bottom: 20px;
+	width: 864px;
+	}
+	
+h1 {
+	padding-bottom: 10px;
+	color: #EEE;
+	font-weight: normal;
+	font-size: 2em;
+	display:inline;
+	}
+
+#about-head {
+	margin-bottom: 22px;
+	}
+	
+h3 {
+	color: #333;
+	font-size: 1.4em;
+	display: inline;
+	}
+	
+#about, #how-to {
+	padding: 5px;
+	background: #EEE;
+	color: #333;
+	border: 1px solid #666;
+	}
+	
+#about p, #how-to p {
+	padding-bottom: 8px;
+	}
+
+strong {
+	font-weight: bold;
+	}	
+
+/*__________________________________________________Banner Ad
+Banner AD
+*/
+
+#banner-ad {
+	margin-bottom: 20px;
+}
+
+/*__________________________________________________Actions
+Actions
+*/
+
+#actions {
+	margin: 0 auto;
+	padding-top: 10px;
+	margin-bottom: -20px;
+	width: 864px;
+	}
+
+/*__________________________________________________Main
+Main
+*/
+
+#main {
+	margin: 30px auto;
+	padding: 32px;
+	width: 800px;
+	height: 1040px;
+	background: #FFF;
+	border: 1px solid #808080;
+	font-size: 9px;
+	}
+	
+/*__________________________________________________Invoice
+Invoice
+*/
+
+#headLeft, #headRight {
+	float: left;
+	}
+	
+#headLeft {
+	border-bottom: 1px solid #CCC;
+	width: 392px;
+	}
+	
+#headRight {
+	border-top: 1px solid #CCC;
+	width: 408px;
+	}
+	
+#headLeft div {
+	padding: 2px 4px 2px 4px;
+	height: 100px;
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	}
+	
+#headRight div {
+	border-bottom: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	padding: 2px 4px 2px 4px;
+	height: 100px;
+	}
+	
+#headLeft .oneLine, #headRight .oneLine, .oneline {
+	height: 30px;
+	}
+	
+#headLeft .twoLine, #headRight .twoLine, .twoLine {
+	height: 67px;
+	padding: 2px 4px 2px 4px;
+	}
+	
+.lbNone {
+	border-left:none !important;
+	}
+	
+.spanTitle {
+	position: absolute;
+	top: 0;
+	border-top: 0px !important;
+	border-right: 1px solid #CCC !important;
+	Border-bottom: 1px solid #CCC !important;
+	border-left: 1px solid #CCC !important;
+	}
+	
+#goods {
+	height: 273px;
+	border-left: 1px solid #CCC;
+	}
+	
+#goods div {
+	float: left;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	padding: 2px 4px 2px 4px;
+	text-align: center;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #CCC;
+	}
+
+td, th {
+	border: 1px solid #CCC;
+	padding: 2px 4px;
+	}
+
+td {
+	text-align: center;
+	}

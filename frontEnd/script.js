@@ -11,22 +11,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 添加调试代码
     console.log('DOM Elements:', DOM);
+    window.waybillIframe = DOM.iframe;
     
     if (!DOM.toggleBtn) {
         console.error('Toggle button not found!');
         return;
     }
 
-    // Iframe初始化
-    if (DOM.iframe) {
-        DOM.iframe.addEventListener('load', () => {
-            window.waybillIframe = DOM.iframe;
-        });
-    }
-
     // 提交功能
     DOM.submitBtn?.addEventListener('click', async () => {
         try {
+            if (!window.waybillIframe) {
+                throw new Error('请等待运单框架加载完成');
+            }
+
             const rawData = DOM.userInput.value.trim();
             if (!rawData) return alert('请输入数据');
             
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 视图切换
     DOM.toggleBtn?.addEventListener('click', (e) => {
-        console.log('Toggle button clicked!'); // 添加调试日志
+        console.log('Toggle button clicked!'); 
         e.preventDefault(); // 防止事件冒泡
         toggleView();
     });
@@ -58,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 视图控制函数
     function toggleView(expand) {
         console.log('Toggle view called, current state:', DOM.container.classList.contains('collapsed')); // 添加调试日志
-        const isExpanded = expand ?? !DOM.container.classList.contains('collapsed'); // 修改这里，改变逻辑
+        const isExpanded = expand ?? !DOM.container.classList.contains('collapsed'); 
         console.log('Will expand to:', isExpanded); // 添加调试日志
         
         // 强制触发重排
@@ -68,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 设置类名
         DOM.container.classList.toggle('collapsed', isExpanded);
         DOM.waybillContainer.classList.toggle('expanded', isExpanded);
-        DOM.toggleBtn.innerHTML = isExpanded ? '≪' : '≫';
+        DOM.toggleBtn.innerHTML = isExpanded ? '≫':'≪'  ;
         
         // 打印当前状态
         console.log('Classes after toggle:', {
