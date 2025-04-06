@@ -11,7 +11,7 @@ def getPieceData(url):
         if response.status_code == 200:
             # 解析 JSON 数据
             json_data = response.json()
-            print("Piece获取成功！")
+            # print("Piece获取成功！")
             # print(json_data)
             return json_data
         else:
@@ -29,6 +29,8 @@ class PieceDataProcessor:
         self.urlList=list(pieceURL)
         # 使用嵌套字典存储所有属性数据
         self.attributes = defaultdict(dict)
+
+        # print("PieceURL:",self.urlList)
         # 存储处理器实例
         self.processors = {}
         # 定义需要提取的属性和对应查询
@@ -78,7 +80,7 @@ class PieceDataProcessor:
     def attributeTotal(self):
 
         result_dict = {str(item[0]): getPieceData(str(item[0])) for item in self.urlList}#获取piece数据存在字典中
-        # 假设已经获取result_dict
+        
         self.process_pieces(result_dict)
         
         # 获取各属性数据
@@ -98,10 +100,10 @@ class PieceDataProcessor:
         self.total_attribute["Total_Dimensions"]  = total_dimensions
         self.total_attribute["Total_Goods_Descriptions"]  = goods_descriptions
 
-        print("毛重数据:", gross_weights)
-        print("计费重数据:", chargeable_weights)
-        print("尺寸数据:", dimensions)
-        print("货物描述数据:", goods_descriptions)
-        print(f"总毛重: {total_gross}, 总计费重: {total_chargeable}")
+        # print("毛重数据:", gross_weights)
+        # print("计费重数据:", chargeable_weights)
+        # print("尺寸数据:", dimensions)
+        # print("货物描述数据:", goods_descriptions)
+        # print(f"总毛重: {total_gross}, 总计费重: {total_chargeable}")
 
         return self.total_attribute

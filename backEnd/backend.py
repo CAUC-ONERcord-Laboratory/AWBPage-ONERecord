@@ -36,7 +36,7 @@ query_actions = {
     "Executed_Place": BasicWaybillInformation.carrierDeclarationPlace, 
 
 
-    #费用相关
+    # #费用相关
     "WT_VAL": Charge.weightValuationIndicator,
     "Other": Charge.otherChargesIndicator,
     "Declared_Value_For_Carriage": Charge.declaredValueForCarriage,
@@ -68,6 +68,8 @@ def handle_query():
 
     response = {}
     waybillProcessor = JsonldProcessor(data['waybill'])
+    with open('graph_output.ttl', 'w') as f:
+         f.write(waybillProcessor.graph.serialize(format='turtle'))
 
     #处理Piece数据
     pieceURL=waybillProcessor.graph.query(PieceLevel.pieceReferenceURL)#获取piece的URL
@@ -82,6 +84,7 @@ def handle_query():
         start_time = time.perf_counter()  # 记录开始时间
         try:
             result = waybillProcessor.execute_sparql_query(query)#执行查询
+
             response[key] = result
         except Exception as e:
             response[f"{key}_error"] = str(e)
