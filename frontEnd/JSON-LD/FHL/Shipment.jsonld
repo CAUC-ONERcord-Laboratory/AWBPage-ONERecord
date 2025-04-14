@@ -1,0 +1,36 @@
+{
+    "@context": {
+        "cargo": "https://onerecord.iata.org/ns/cargo#",
+        "code": "https://onerecord.iata.org/ns/code-lists/"
+    },
+    "cargo:shipment":{
+    "@type":"cargo:Shipment",
+    "cargo:pieces":[
+        {
+            "@id":"https://pieces_example"
+        }],
+    "cargo:totalGrossWeight":{
+        "@type":"cargo:Value",
+        "cargo:numericalValue":"",
+        "cargo:unit":{
+            "@type":"cargo:CodeListElement",
+            "cargo:code":"https://vocabulary.uncefact.org/WeightUnitMeasureCode#KGM"
+        }
+    },
+    "cargo:customsInformation":{
+        "@type":"cargo:CustomsInformation",
+        "cargo:country":{
+            "@type":"cargo:Country",
+            "cargo:countryCode":{
+                "@type":"cargo:CodeListElement",
+                "cargo:code":"CN"
+            }
+        },
+        "cargo:contentCode":{
+            "@type":"cargo:CodeListElement",
+            "cargo:code":"C"
+        },
+        "cargo:note":""
+    }
+}
+}

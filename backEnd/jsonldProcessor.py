@@ -13,9 +13,11 @@ class JsonldProcessor:
         results = self.graph.query(sparql_query)
         # 将 SPARQL 结果转换为 JSON 格式
         rows = list(results)#List便于统计行数
-        print(rows)
-        print(len(rows[0]))
-        print(len(rows))
+
+        # print(rows)
+        # print(len(rows[0]))
+        # print(len(rows))
+
         if not rows:  # 空结果快速返回
             return []       
         # 根据结果行数分发处理逻辑
@@ -24,44 +26,6 @@ class JsonldProcessor:
             else handle_multiple_rows(rows)  
         )
 
-
-# def handle_single_row(row):
-#     """ 解析单列值 """
-#     if len(row) > 1:  
-#         row_dict = {}
-#         for k, v in row.asdict().items():
-#             key = str(k)
-#             value = float(v) if "Value" in key else str(v)
-#             row_dict[key] = value
-#         return row_dict
-#     else:
-#         for key, value in row.asdict().items():   
-#             # 所有value转化为float，否则为str    
-#             if 'value' in key.lower():
-#                 return safe_float_convert(value)
-#             else:
-#                 return value
-
-# def handle_multiple_rows(rows):
-#     """ 将所有行转换为字典列表 """
-#     print("多行数据")
-#     print(rows)
-#     result_list = []
-#     for row in rows:  # 遍历所有行
-#         row_dict = {}
-#         for k, v in row.asdict().items():
-#             key = str(k)
-#             value = float(v) if "Value" in key else str(v)
-#             row_dict[key] = value
-#         result_list.append(row_dict)  # 保存每一行
-#     return result_list
-
-# def safe_float_convert(s):
-#     """ 安全转换为浮点数 """
-#     try:
-#         return float(s)
-#     except ValueError:
-#         return s
 
 def convert_row_to_dict(row):
     """通用行转换函数 (核心逻辑封装)"""
