@@ -13,9 +13,11 @@ class JsonldProcessor:
         results = self.graph.query(sparql_query)
         # 将 SPARQL 结果转换为 JSON 格式
         rows = list(results)#List便于统计行数
+
         # print(rows)
         # print(len(rows[0]))
         # print(len(rows))
+
         if not rows:  # 空结果快速返回
             return []       
         # 根据结果行数分发处理逻辑
@@ -23,6 +25,8 @@ class JsonldProcessor:
             handle_single_row(rows[0]) if len(rows) == 1
             else handle_multiple_rows(rows)  
         )
+
+
 def convert_row_to_dict(row):
     """通用行转换函数 (核心逻辑封装)"""
     row_dict = {}
