@@ -11,7 +11,7 @@ http-server -p 3000
 ```
 
 Back end:
-
+python 3.12
 ```shell
 cd backEnd
 pip install -r requirements.txt
