@@ -1,0 +1,9 @@
+{
+    "@context": {
+        "cargo": "https://onerecord.iata.org/ns/cargo#",
+        "code": "https://onerecord.iata.org/ns/code-lists/"
+    },
+    "@type": "cargo:Piece",
+    "cargo:slac":"" ,
+    "specialHandlingCode": ""
+}

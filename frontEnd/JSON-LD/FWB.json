@@ -1,0 +1,248 @@
+{
+    "@context": {
+        "cargo": "https://onerecord.iata.org/ns/cargo#",
+        "code": "https://onerecord.iata.org/ns/code-lists/"
+    },
+    "@type": "cargo:Waybill",
+    "cargo:waybillType": {
+        "@id": "cargo:MASTER"
+    },
+    "cargo:waybillNumber": "xxx-01961794",
+    "cargo:involvedParties": [
+        {
+            "@type": "cargo:Party",
+            "cargo:partyDetails": {
+                "@type": "cargo:Organization",
+                "cargo:name": "XXX SHANGHAI CO LTD",
+                "cargo:basedAtLocation": {
+                    "@type": "cargo:Location",
+                    "cargo:locationName": "XXX SHANGHAI CO LTD 21"
+                }
+            },
+            "cargo:partyRole": {
+                "@type": "code:ParticipantIdentifier",
+                "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#SHP"
+            }
+        },
+        {
+            "@type": "cargo:Party",
+            "cargo:partyDetails": {
+                "@type": "cargo:Organization",
+                "cargo:name": "XXX OSAKA OFFICE",
+                "cargo:basedAtLocation": {
+                    "@type": "cargo:Location",
+                    "cargo:locationName": "SENSHU XXX OSAKA OFFICE 1-1-1"
+                }
+            },
+            "cargo:partyRole": {
+                "@type": "code:ParticipantIdentifier",
+                "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#CNE"
+            }
+        },
+        {
+            "@type": "cargo:Party",
+            "cargo:partyDetails": {
+                "@type": "cargo:Company",
+                "cargo:name": "test_agent",
+                "cargo:iataCargoAgentCode": "",
+                "cargo:basedAtLocation": {
+                    "@type": "cargo:Location",
+                    "cargo:locationName": ""
+                }
+            },
+            "cargo:partyRole": {
+                "@type": "code:ParticipantIdentifier",
+                "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AGT"
+            }
+        },
+        {
+            "@type": "cargo:Party",
+            "cargo:partyDetails": {
+                "@type": "cargo:Carrier",
+                "cargo:name": "XXX Airline",
+                "cargo:shortName": "XXXX",
+                "cargo:airlineCode": "XX"
+            },
+            "cargo:partyRole": {
+                "@type": "code:ParticipantIdentifier",
+                "@id": "https://onerecord.iata.org/ns/code-lists/ParticipantIdentifier#AIR"
+            }
+        }
+    ],
+    "cargo:accountingNotes": [
+        {
+            "@type": "cargo:AccountingNote",
+            "cargo:accountingNoteText": "运单修改1次"
+        }
+    ],
+    "cargo:arrivalLocation": {
+        "@type": "cargo:Location",
+        "cargo:locationCodes": {
+            "@type": "cargo:CodeListElement",
+            "cargo:code": "KIX"
+        }
+    },
+    "cargo:departureLocation": {
+        "@type": "cargo:Location",
+        "cargo:locationCodes": {
+            "@type": "cargo:CodeListElement",
+            "cargo:code": "TAO"
+        }
+    },
+    "cargo:weightValuationIndicator": {
+        "@type": "code:PrepaidCollectIndicator",
+        "@id": "https://onerecord.iata.org/ns/code-lists/PrepaidCollectIndicator#P"
+    },
+    "cargo:declaredValueForCarriage": {
+        "@type": "cargo:CurrencyValue",
+        "cargo:currencyUnit": {
+            "@type": "code:CurrencyCode",
+            "@value": "CNY"
+        },
+        "cargo:numericalValue": 0
+    },
+    "cargo:declaredValueForCustoms": {
+        "@type": "cargo:CurrencyValue",
+        "cargo:currencyUnit": {
+            "@type": "code:CurrencyCode",
+            "@value": "CNY"
+        },
+        "cargo:numericalValue": 0
+    },
+    "cargo:shipment": {
+        "@type": "cargo:Shipment",
+        "cargo:insurance": {
+            "@type": "cargo:Insurance",
+            "cargo:insuredAmount": {
+                "@type": "cargo:CurrencyValue",
+                "cargo:currencyUnit": {
+                    "@type": "code:CurrencyCode",
+                    "@value": "CNY"
+                },
+                "cargo:numericalValue": 0
+            }
+        },
+        "cargo:pieces": [
+            {
+                "@id": "https://pieces_example"
+            }
+        ],
+        "cargo:totalGrossWeight": "",
+        "cargo:totalDimensions": ""
+    },
+    "cargo:waybillLineItems": [
+        {
+            "@type": "cargo:WaybillLineItem",
+            "cargo:rateClassCode": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/RateClassCode#Q"
+            },
+            "cargo:rateCharge": {
+                "@type": "cargo:CurrencyValue",
+                "cargo:currencyUnit": {
+                    "@type": "code:CurrencyCode",
+                    "@value": "CNY"
+                },
+                "cargo:numericalValue": 6.5
+            },
+            "cargo:pieceReferences": [
+                {
+                    "@id": "http://127.0.0.1:3000/JSON-LD/piece1.json"
+                },
+                {
+                    "@id": "http://127.0.0.1:3000/JSON-LD/piece2.json"
+                },
+                {
+                    "@id": "http://127.0.0.1:3000/JSON-LD/piece3.json"
+                }
+            ]
+        }
+    ],
+    "cargo:referredBookingOption": {
+        "@type": "cargo:Booking",
+        "cargo:bookingRequest": {
+            "@type": "cargo:BookingRequest",
+            "cargo:forBookingOption": {
+                "@type": "cargo:BookingOption",
+                "cargo:transportLegs": [
+                    {
+                        "@type": "cargo:TransportLegs",
+                        "cargo:transportIdentifier": "XX2493",
+                        "cargo:departureDate": {
+                            "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                            "@value": "2025-02-07T14:30:45"
+                        },
+                        "cargo:arrivalLocation": {
+                            "@type": "cargo:Location",
+                            "cargo:locationCodes": {
+                                "@type": "cargo:CodeListElement",
+                                "cargo:code": "KIX"
+                            }
+                        },
+                        "cargo:departureLocation": {
+                            "@type": "cargo:Location",
+                            "cargo:locationCodes": {
+                                "@type": "cargo:CodeListElement",
+                                "cargo:code": "TAO"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "cargo:otherChargesIndicator": {
+        "@type": "code:PrepaidCollectIndicator",
+        "@id": "code:PrepaidCollectIndicator#P"
+    },
+    "cargo:otherCharges": [
+        {
+            "@type": "cargo:OtherCharge",
+            "cargo:otherChargeCode": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/OtherChargeCode#AW"
+            },
+            "cargo:entitlement": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
+            },
+            "cargo:reasonDescription": "Air Waybill Fee due carrier",
+            "cargo:otherChargeAmount": {
+                "@type": "cargo:CurrencyValue",
+                "cargo:currencyUnit": {
+                    "@type": "code:CurrencyCode",
+                    "@value": "CNY"
+                },
+                "cargo:numericalValue": 50
+            }
+        },
+        {
+            "@type": "cargo:OtherCharge",
+            "cargo:otherChargeCode": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/OtherChargeCode#IN"
+            },
+            "cargo:entitlement": {
+                "@id": "https://onerecord.iata.org/ns/code-lists/EntitlementCode#C"
+            },
+            "cargo:reasonDescription": "Insurance Premium due carrier",
+            "cargo:otherChargeAmount": {
+                "@type": "cargo:CurrencyValue",
+                "cargo:currencyUnit": {
+                    "@type": "code:CurrencyCode",
+                    "@value": "CNY"
+                },
+                "cargo:numericalValue": 12
+            }
+        }
+    ],
+    "cargo:consignorDeclarationSignature": "XXX CO LTD",
+    "cargo:carrierDeclarationSignature": "XX Airline",
+    "cargo:carrierDeclarationDate": {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2025-02-06"
+    },
+    "cargo:carrierDeclarationPlace": {
+        "@type": "cargo:Location",
+        "cargo:locationCodes": {
+            "@type": "cargo:CodeListElement",
+            "cargo:code": "TNA"
+        }
+    }
+}
