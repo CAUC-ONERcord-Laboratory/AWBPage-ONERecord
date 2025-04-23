@@ -7,7 +7,7 @@
     "cargo:waybillType": {
         "@id": "cargo:MASTER"
     },
-    "cargo:waybillNumber": "324-01961794",
+    "cargo:waybillNumber": "xxx-01961794",
     "cargo:involvedParties": [
         {
             "@type": "cargo:Party",
